@@ -37,7 +37,7 @@ DF_DATE.dateFormat = "d"
 const DF_TIME = new DateFormatter()
 DF_TIME.dateFormat = "HH:mm"
 
-async function buildStack(parent_stack, size, backgroundColor)
+function buildStack(parent_stack, backgroundColor, size)
 {
   stack = parent_stack.addStack()
   stack.size = size;
@@ -213,49 +213,48 @@ async function buildEvents(today, events, stack_events)
     }
   }
 
-  const stack_pad0 = stack_events.addStack()
-  const stack_all_day_title0 = buildStack(stack_events, SIZE_EVENT_ALL_DAY_TITLE, COLOR_BG)
-//  const stack_all_day_title0 = stack_events.addStack()
-  const stack_pad1 = stack_events.addStack()
-  const stack_all_day_title1 = stack_events.addStack()
-  const stack_pad2 = stack_events.addStack()
-  const stack_title0 = stack_events.addStack()
-  const stack_time0 = stack_events.addStack()
-  const stack_pad3 = stack_events.addStack()
-  const stack_title1 = stack_events.addStack()
-  const stack_time1 = stack_events.addStack()
-  const stack_pad4 = stack_events.addStack()
-  const stack_remainder = stack_events.addStack()
-  const stack_pad5 = stack_events.addStack()
+  const stack_pad0 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
+  const stack_all_day_title0 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_ALL_DAY_TITLE)
+  const stack_pad1 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
+  const stack_all_day_title1 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_ALL_DAY_TITLE)
+  const stack_pad2 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
+  const stack_title0 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_TITLE)
+  const stack_time0 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_TIME)
+  const stack_pad3 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
+  const stack_title1 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_TITLE)
+  const stack_time1 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_TIME)
+  const stack_pad4 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
+  const stack_remainder = buildStack(stack_events, COLOR_BG, SIZE_EVENT_REMAINDER)
+  const stack_pad5 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
 
-  stack_events.size = SIZE_EVENT
-  stack_pad0.size = SIZE_EVENT_PAD
-  stack_pad1.size = SIZE_EVENT_PAD
-  stack_pad2.size = SIZE_EVENT_PAD
-  stack_pad3.size = SIZE_EVENT_PAD
-  stack_pad4.size = SIZE_EVENT_PAD
-  stack_pad5.size = SIZE_EVENT_PAD
-//  stack_all_day_title0.size = SIZE_EVENT_ALL_DAY_TITLE
-  stack_all_day_title1.size = SIZE_EVENT_ALL_DAY_TITLE
-  stack_title0.size = SIZE_EVENT_TITLE
-  stack_title1.size = SIZE_EVENT_TITLE
-  stack_time0.size = SIZE_EVENT_TIME
-  stack_time1.size = SIZE_EVENT_TIME
-  stack_remainder.size = SIZE_EVENT_REMAINDER
-  stack_events.backgroundColor = COLOR_BG
-  stack_pad0.backgroundColor = COLOR_BG
-  stack_pad1.backgroundColor = COLOR_BG
-  stack_pad2.backgroundColor = COLOR_BG
-  stack_pad3.backgroundColor = COLOR_BG
-  stack_pad4.backgroundColor = COLOR_BG
-  stack_pad5.backgroundColor = COLOR_BG
-//  stack_all_day_title0.backgroundColor = COLOR_BG
-  stack_all_day_title1.backgroundColor = COLOR_BG
-  stack_title0.backgroundColor = COLOR_BG
-  stack_title1.backgroundColor = COLOR_BG
-  stack_time0.backgroundColor = COLOR_BG
-  stack_time1.backgroundColor = COLOR_BG
-  stack_remainder.backgroundColor = COLOR_BG
+//  stack_events.size = SIZE_EVENT
+//  stack_pad0.size = SIZE_EVENT_PAD
+//  stack_pad1.size = SIZE_EVENT_PAD
+//  stack_pad2.size = SIZE_EVENT_PAD
+//  stack_pad3.size = SIZE_EVENT_PAD
+//  stack_pad4.size = SIZE_EVENT_PAD
+//  stack_pad5.size = SIZE_EVENT_PAD
+////  stack_all_day_title0.size = SIZE_EVENT_ALL_DAY_TITLE
+//  stack_all_day_title1.size = SIZE_EVENT_ALL_DAY_TITLE
+//  stack_title0.size = SIZE_EVENT_TITLE
+//  stack_title1.size = SIZE_EVENT_TITLE
+//  stack_time0.size = SIZE_EVENT_TIME
+//  stack_time1.size = SIZE_EVENT_TIME
+//  stack_remainder.size = SIZE_EVENT_REMAINDER
+//  stack_events.backgroundColor = COLOR_BG
+//  stack_pad0.backgroundColor = COLOR_BG
+//  stack_pad1.backgroundColor = COLOR_BG
+//  stack_pad2.backgroundColor = COLOR_BG
+//  stack_pad3.backgroundColor = COLOR_BG
+//  stack_pad4.backgroundColor = COLOR_BG
+//  stack_pad5.backgroundColor = COLOR_BG
+////  stack_all_day_title0.backgroundColor = COLOR_BG
+//  stack_all_day_title1.backgroundColor = COLOR_BG
+//  stack_title0.backgroundColor = COLOR_BG
+//  stack_title1.backgroundColor = COLOR_BG
+//  stack_time0.backgroundColor = COLOR_BG
+//  stack_time1.backgroundColor = COLOR_BG
+//  stack_remainder.backgroundColor = COLOR_BG
 
   if (all_day_events_today.length > 0)
     buildAllDayEventStack(all_day_events_today[0], stack_all_day_title0)
