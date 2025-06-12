@@ -33,11 +33,21 @@ const FONT_TIME          = Font.regularMonospacedSystemFont(13)
 const FONT_REMINDER      = Font.semiboldSystemFont(15)
 const FONT_REMAINDER     = Font.regularMonospacedSystemFont(13)
 const FONT_FUTURE_DATE   = Font.mediumSystemFont(20)
-const FONT_FUTURE_DATE   = Font.mediumSystemFont(7)
+const FONT_FUTURE_ALERT  = Font.mediumSystemFont(7)
 
 const DF_DAY  = new DateFormatter(); DF_DAY.dateFormat  = "E"
 const DF_DATE = new DateFormatter(); DF_DATE.dateFormat = "d"
 const DF_TIME = new DateFormatter(); DF_TIME.dateFormat = "HH:mm"
+
+function buildText(parent_stack, text, color, font)
+{
+  const text_date = parent_stack.addText(text)
+
+  parent_stack.centerAlignContent()
+  text_date.centerAlignText()
+  text_date.font = font
+  text_date.color = color
+}
 
 function buildStack(parent_stack, backgroundColor, size)
 {
@@ -122,11 +132,12 @@ function buildFutureAlert(stack_future, date, reminders)
 //      count_rms += 1
 
   // set date
-  const text_date = stack_date.addText(DF_DATE.string(date))
-  stack_date.centerAlignContent()
-  text_date.centerAlignText()
-  text_date.font = FONT_FUTURE_DATE
-  text_date.color = COLOR_BG
+  const text_date = buildText(stack_date, DF_DATE.string(date), COLOR_BG, FONT_FUTURE_DATE)
+//  const text_date = stack_date.addText(DF_DATE.string(date))
+//  stack_date.centerAlignContent()
+//  text_date.centerAlignText()
+//  text_date.font = FONT_FUTURE_DATE
+//  text_date.color = COLOR_BG
 
   // set number of events
 //  const text_es = stack_es.addText("+" + count_es)
