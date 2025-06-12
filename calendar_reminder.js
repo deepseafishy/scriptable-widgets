@@ -128,9 +128,12 @@ async function buildFutureAlert(stack_future, date)
   text_date.centerAlignText()
   text_date.color = COLOR_BG
 
-  const text_es = stack_es.addText(count_es)
+  // set number of events
+  const text_es = stack_es.addText("+" + count_es)
   text_es.color = COLOR_BG
-  const text_rms = stack_es.addText(count_rms)
+
+  // set number of reminders
+  const text_rms = stack_es.addText("+" + count_rms)
   text_rms.color = COLOR_BG
 }
 
