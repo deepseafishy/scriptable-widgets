@@ -11,9 +11,9 @@ const SIZE_CURRENT_DAY    = new Size(40, 20)
 const SIZE_CURRENT_DATE   = new Size(40, 40)
 const SIZE_CURRENT_PAD    = new Size(40,  5)
 const SIZE_CURRENT_FUTURE = new Size(40, 35)
-const SIZE_CURRENT_FDATE  = new Size(20, 35)
-const SIZE_CURRENT_FALERT = new Size(20, 35)
-const SIZE_CURRENT_FCOUNT = new Size(20, 15)
+const SIZE_CURRENT_FDATE  = new Size(25, 35)
+const SIZE_CURRENT_FALERT = new Size(15, 35)
+const SIZE_CURRENT_FCOUNT = new Size(15, 17)
 
 const SIZE_EVENT_PAD           = new Size(120,  5)
 const SIZE_EVENT_ALL_DAY_TITLE = new Size(120, 15)
@@ -107,34 +107,35 @@ async function buildFutureAlert(stack_future, date)
   const stack_es     = buildStack(stack_alerts, COLOR_WHITE, SIZE_CURRENT_FCOUNT)
   const stack_rms    = buildStack(stack_alerts, COLOR_WHITE, SIZE_CURRENT_FCOUNT)
 
-  const events = await CalendarEvent.tomorrow([])
-  const reminders = await Reminder.all([])
-
-  // find events
-  let count_es = 0
-  for (const e of events)
-    if (e.startDate.getTime() > date.getTime())
-      count_es += 1
-
-  // find reminders
-  let count_rms = 0
-  for (const reminder of reminders)
-    if (!reminder.isCompleted && reminder.dueDate != null && reminder.dueDate.getDate() == date.getDate())
-      count_rms += 1
+//  const events = await CalendarEvent.tomorrow([])
+//  const reminders = await Reminder.all([])
+//
+//  // find events
+//  let count_es = 0
+//  for (const e of events)
+//    if (e.startDate.getDate() == date.getDate())
+//      count_es += 1
+//
+//  // find reminders
+//  let count_rms = 0
+//  for (const reminder of reminders)
+//    if (!reminder.isCompleted && reminder.dueDate != null && reminder.dueDate.getDate() == date.getDate())
+//      count_rms += 1
 
   // set date
   const text_date = stack_date.addText(DF_DATE.string(date))
   stack_date.centerAlignContent()
   text_date.centerAlignText()
-  text_date.font = FONT_DATE
   text_date.color = COLOR_BG
 
   // set number of events
-  const text_es = stack_es.addText("+" + count_es)
+//  const text_es = stack_es.addText("+" + count_es)
+  const text_es = stack_es.addText("+10")
   text_es.color = COLOR_BG
 
   // set number of reminders
-  const text_rms = stack_es.addText("+" + count_rms)
+//  const text_rms = stack_rms.addText("+" + count_rms)
+  const text_rms = stack_rms.addText("+11")
   text_rms.color = COLOR_BG
 }
 
