@@ -1,24 +1,26 @@
 const COLOR_BG    = new Color("242424", 1)
 const COLOR_WHITE = new Color("FFFFFF", 1)
 
-const SIZE_CURRENT        = new Size(40, 150)
+const SIZE_CURRENT  = new Size( 40, 150)
+const SIZE_LINE     = new Size(  2, 150)
+const SIZE_EVENT    = new Size(120, 150)
+const SIZE_PAD      = new Size( 10, 150)
+const SIZE_REMINDER = new Size(160, 150)
+
 const SIZE_CURRENT_DAY    = new Size(40, 20)
 const SIZE_CURRENT_DATE   = new Size(40, 40)
-const SIZE_CURRENT_PAD    = new Size(40, 5)
-const SIZE_CURRENT_FUTURE = new Size(40, 30)
+const SIZE_CURRENT_PAD    = new Size(40,  5)
+const SIZE_CURRENT_FUTURE = new Size(40, 35)
+const SIZE_CURRENT_FDATE  = new Size(30, 35)
+const SIZE_CURRENT_FALERT = new Size(10, 35)
+const SIZE_CURRENT_FCOUNT = new Size(10, 15)
 
-const SIZE_LINE = new Size(2, 150)
-
-const SIZE_EVENT               = new Size(120, 150)
-const SIZE_EVENT_PAD           = new Size(120, 5)
+const SIZE_EVENT_PAD           = new Size(120,  5)
 const SIZE_EVENT_ALL_DAY_TITLE = new Size(120, 15)
 const SIZE_EVENT_TITLE         = new Size(120, 23)
 const SIZE_EVENT_TIME          = new Size(120, 15)
 const SIZE_EVENT_REMAINDER     = new Size(120, 14)
 
-const SIZE_PAD = new Size(10, 150)
-
-const SIZE_REMINDER           = new Size(160, 150)
 const SIZE_REMINDER_PAD       = new Size(160, 10)
 const SIZE_REMINDER_TITLE     = new Size(160, 20)
 const SIZE_REMINDER_REMAINDER = new Size(160, 20)
@@ -95,6 +97,38 @@ function buildRemainderStack(stack_remainder, count, postfix)
   stack_remainder.backgroundColor = COLOR_WHITE
   text_summary.font = FONT_REMAINDER
   text_summary.textColor = COLOR_BG
+}
+
+function buildFutureAlert(stack_future, date)
+{
+  const stack_date   = buildStack(stack_future, COLOR_BG, SIZE_CURRENT_FDATE)
+  const stack_alerts = buildStack(stack_future, COLOR_BG, SIZE_CURRENT_FALERT)
+  stack_alerts.layoutVertically()
+  const stack_es     = buildStack(stack_alerts, COLOR_BG, SIZE_CURRENT_FCOUNT)
+  const stack_rms    = buildStack(stack_alerts, COLOR_BG, SIZE_CURRENT_FCOUNT)
+
+  const events = await CalendarEvent.tomorrow([])
+  const reminders = await Reminder.all([])
+
+  // find events
+  let count_es = 0
+  for (const e of events)
+    if (e.startDate.getTime() > date.getTime())
+      count_es += 1
+
+  // find reminders
+  let count_rms = 0
+  for (const reminder of reminders)
+    if (!reminder.isCompleted && reminder.dueDate != null && reminder.dueDate.getDate() == date.getDate())
+      count_rms += 1
+
+  // set date
+  const text_date = stack_date.addText(DF_DATE.string(date))
+  stack_date.centerAlignContent()
+  text_date.centerAlignText()
+
+  const text_es = stack_es.addText(count_es)
+  const text_rms = stack_es.addText(count_rms)
 }
 
 async function buildReminders(today, reminders, stack_reminders)
@@ -219,14 +253,23 @@ async function buildCurrent(today, stack_current)
   const text_day = stack_day.addText(DF_DAY.string(today))
   const text_date = stack_date.addText(DF_DATE.string(today))
 
+  const plus_one = new Date(today)
+  const plus_two = new Date(today)
+
+  // set up today's day and date
   stack_day.centerAlignContent()
   stack_date.centerAlignContent()
   text_day.centerAlignText()
   text_date.centerAlignText()
-
-  //stack_current.size = SIZE_CURRENT
   text_day.font = FONT_DAY
   text_date.font = FONT_DATE
+
+  // show number of tomorrow's events and reminders
+  plus_one.setDate(today.getDate() + 1)
+  buildFuture(stack_f1, plus_one)
+  // show number of day after tomorrow's events and reminders
+  plus_two.setDate(today.getDate() + 2)
+  buildFuture(stack_f2, plus_two)
 }
 
 async function buildMediumWidget()
