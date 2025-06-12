@@ -46,12 +46,13 @@ function buildText(parent_stack, text, color, font)
   parent_stack.centerAlignContent()
   text_date.centerAlignText()
   text_date.font = font
-  text_date.color = color
+  text_date.textColor = color
 }
 
 function buildStack(parent_stack, backgroundColor, size)
 {
-  stack = parent_stack.addStack()
+  const stack = parent_stack.addStack()
+
   stack.size = size;
   stack.backgroundColor = backgroundColor
 
@@ -132,28 +133,11 @@ function buildFutureAlert(stack_future, date, reminders)
 //      count_rms += 1
 
   // set date
-  const text_date = buildText(stack_date, DF_DATE.string(date), COLOR_BG, FONT_FUTURE_DATE)
-//  const text_date = stack_date.addText(DF_DATE.string(date))
-//  stack_date.centerAlignContent()
-//  text_date.centerAlignText()
-//  text_date.font = FONT_FUTURE_DATE
-//  text_date.color = COLOR_BG
-
+  const text_date = buildText(stack_date, COLOR_BG, FONT_FUTURE_DATE,  DF_DATE.string(date))
   // set number of events
-//  const text_es = stack_es.addText("+" + count_es)
-  const text_es = stack_es.addText("+10")
-  stack_es.centerAlignContent()
-  text_es.centerAlignText()
-  text_es.font = FONT_FUTURE_ALERT
-  text_es.color = COLOR_BG
-
-  // set number of reminders
-//  const text_rms = stack_rms.addText("+" + count_rms)
-  const text_rms = stack_rms.addText("+11")
-  stack_rms.centerAlignContent()
-  text_rms.centerAlignText()
-  text_rms.font = FONT_FUTURE_ALERT
-  text_rms.color = COLOR_BG
+  const text_es   = buildText(stack_date, COLOR_BG, FONT_FUTURE_ALERT, "+10")
+  // set number of events
+  const text_rms  = buildText(stack_date, COLOR_BG, FONT_FUTURE_ALERT, "+11")
 }
 
 async function buildReminders(today, reminders, stack_reminders)
