@@ -146,19 +146,18 @@ async function buildAllDayEventStack(event, stack_title)
 
 async function buildEventStack(event, stack_title, stack_time)
 {
-  stack_title.backgroundColor = COLOR_WHITE
-  stack_time.backgroundColor = COLOR_WHITE
-
   const text_title = stack_title.addText(event.name)
-
-  text_title.font = FONT_EVENT
-  text_title.textColor = COLOR_BG
-
   const text_time_start = DF_TIME.string(event.startDate)
   const text_time_end = DF_TIME.string(event.endDate)
   const text_time = stack_time.addText(text_time_start + " ~ " + text_time_end)
 
   text_time.font = FONT_TIME
+  stack_title.backgroundColor = COLOR_WHITE
+  stack_time.backgroundColor = COLOR_WHITE
+
+  text_title.font = FONT_EVENT
+  text_title.textColor = COLOR_BG
+
   text_time.textColor = COLOR_BG
 }
 
