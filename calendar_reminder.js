@@ -1,10 +1,12 @@
 const COLOR_BG    = new Color("242424", 1)
 const COLOR_WHITE = new Color("FFFFFF", 1)
 
-const SIZE_CURRENT       = new Size(40, 150)
-const SIZE_CURRENT_DAY   = new Size(40, 20)
-const SIZE_CURRENT_DATE  = new Size(40, 40)
-const SIZE_CURRENT_EMPTY = new Size(40, 90)
+const SIZE_CURRENT        = new Size(40, 150)
+const SIZE_CURRENT_DAY    = new Size(40, 20)
+const SIZE_CURRENT_DATE   = new Size(40, 40)
+const SIZE_CURRENT_PAD    = new Size(40, 10)
+const SIZE_CURRENT_SDATE  = new Size(40, 20)
+const SIZE_CURRENT_SCOUNT = new Size(40, 10)
 
 const SIZE_LINE = new Size(2, 150)
 
@@ -208,7 +210,14 @@ async function buildCurrent(today, stack_current)
 {
   const stack_day = stack_current.addStack()
   const stack_date = stack_current.addStack()
-  const stack_empty = stack_current.addStack()
+  const stack_p0 = stack_current.addStack()
+  const stack_sd0 = stack_current.addStack()
+  const stack_sc0 = stack_current.addStack()
+  const stack_p1 = stack_current.addStack()
+  const stack_sd1 = stack_current.addStack()
+  const stack_sc1 = stack_current.addStack()
+  const stack_p2 = stack_current.addStack()
+
   const text_day = stack_day.addText(DF_DAY.string(today))
   const text_date = stack_date.addText(DF_DATE.string(today))
 
@@ -220,7 +229,18 @@ async function buildCurrent(today, stack_current)
   stack_current.size = SIZE_CURRENT
   stack_day.size = SIZE_CURRENT_DAY
   stack_date.size = SIZE_CURRENT_DATE
-  stack_empty.size = SIZE_CURRENT_EMPTY
+  stack_p0 = SIZE_CURRENT_PAD
+  stack_sd0 = SIZE_CURRENT_SDATE
+  stack_sc0 = SIZE_CURRENT_SCOUNT
+  stack_p1 = SIZE_CURRENT_PAD
+  stack_sd1 = SIZE_CURRENT_SDATE
+  stack_sc1 = SIZE_CURRENT_SCOUNT
+  stack_p2 = SIZE_CURRENT_PAD
+
+  stack_sd0.backgroundColor = COLOR_WHITE
+  stack_sc0.backgroundColor = COLOR_WHITE
+  stack_sd1.backgroundColor = COLOR_WHITE
+  stack_sc1.backgroundColor = COLOR_WHITE
 
   text_day.font = FONT_DAY
   text_date.font = FONT_DATE
