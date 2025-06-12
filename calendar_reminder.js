@@ -11,9 +11,9 @@ const SIZE_CURRENT_DAY    = new Size(40, 20)
 const SIZE_CURRENT_DATE   = new Size(40, 40)
 const SIZE_CURRENT_PAD    = new Size(40,  5)
 const SIZE_CURRENT_FUTURE = new Size(40, 35)
-const SIZE_CURRENT_FDATE  = new Size(30, 35)
-const SIZE_CURRENT_FALERT = new Size(10, 35)
-const SIZE_CURRENT_FCOUNT = new Size(10, 15)
+const SIZE_CURRENT_FDATE  = new Size(20, 35)
+const SIZE_CURRENT_FALERT = new Size(20, 35)
+const SIZE_CURRENT_FCOUNT = new Size(20, 15)
 
 const SIZE_EVENT_PAD           = new Size(120,  5)
 const SIZE_EVENT_ALL_DAY_TITLE = new Size(120, 15)
@@ -126,6 +126,7 @@ async function buildFutureAlert(stack_future, date)
   const text_date = stack_date.addText(DF_DATE.string(date))
   stack_date.centerAlignContent()
   text_date.centerAlignText()
+  text_date.font = FONT_DATE
   text_date.color = COLOR_BG
 
   // set number of events
@@ -272,10 +273,10 @@ async function buildCurrent(today, stack_current)
 
   // show number of tomorrow's events and reminders
   plus_one.setDate(today.getDate() + 1)
-  buildFuture(stack_f0, plus_one)
+  buildFutureAlert(stack_f0, plus_one)
   // show number of day after tomorrow's events and reminders
   plus_two.setDate(today.getDate() + 2)
-  buildFuture(stack_f1, plus_two)
+  buildFutureAlert(stack_f1, plus_two)
 }
 
 async function buildMediumWidget()
