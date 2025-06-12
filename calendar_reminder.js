@@ -4,9 +4,8 @@ const COLOR_WHITE = new Color("FFFFFF", 1)
 const SIZE_CURRENT        = new Size(40, 150)
 const SIZE_CURRENT_DAY    = new Size(40, 20)
 const SIZE_CURRENT_DATE   = new Size(40, 40)
-const SIZE_CURRENT_PAD    = new Size(40, 10)
-const SIZE_CURRENT_SDATE  = new Size(40, 20)
-const SIZE_CURRENT_SCOUNT = new Size(40, 10)
+const SIZE_CURRENT_PAD    = new Size(40, 5)
+const SIZE_CURRENT_FUTURE = new Size(40, 30)
 
 const SIZE_LINE = new Size(2, 150)
 
@@ -208,15 +207,14 @@ async function buildLine(stack_line)
 
 async function buildCurrent(today, stack_current)
 {
-  const stack_day = stack_current.addStack()
-  const stack_date = stack_current.addStack()
-  const stack_p0 = stack_current.addStack()
-  const stack_sd0 = stack_current.addStack()
-  const stack_sc0 = stack_current.addStack()
-  const stack_p1 = stack_current.addStack()
-  const stack_sd1 = stack_current.addStack()
-  const stack_sc1 = stack_current.addStack()
-  const stack_p2 = stack_current.addStack()
+  const stack_day  = buildStack(stack_current, COLOR_BG,    SIZE_CURRENT_DAY)
+  const stack_date = buildStack(stack_current, COLOR_BG,    SIZE_CURRENT_DATE)
+  const stack_p0   = buildStack(stack_current, COLOR_BG,    SIZE_CURRENT_PAD)
+  const stack_f0   = buildStack(stack_current, COLOR_WHITE, SIZE_CURRENT_FUTURE)
+  const stack_p1   = buildStack(stack_current, COLOR_BG,    SIZE_CURRENT_PAD)
+  const stack_f1   = buildStack(stack_current, COLOR_WHITE, SIZE_CURRENT_FUTURE)
+  const stack_p2   = buildStack(stack_current, COLOR_BG,    SIZE_CURRENT_PAD)
+  const stack_p3   = buildStack(stack_current, COLOR_BG,    SIZE_CURRENT_PAD)
 
   const text_day = stack_day.addText(DF_DAY.string(today))
   const text_date = stack_date.addText(DF_DATE.string(today))
@@ -226,22 +224,7 @@ async function buildCurrent(today, stack_current)
   text_day.centerAlignText()
   text_date.centerAlignText()
 
-  stack_current.size = SIZE_CURRENT
-  stack_day.size = SIZE_CURRENT_DAY
-  stack_date.size = SIZE_CURRENT_DATE
-  stack_p0.size = SIZE_CURRENT_PAD
-  stack_sd0.size = SIZE_CURRENT_SDATE
-  stack_sc0.size = SIZE_CURRENT_SCOUNT
-  stack_p1.size = SIZE_CURRENT_PAD
-  stack_sd1.size = SIZE_CURRENT_SDATE
-  stack_sc1.size = SIZE_CURRENT_SCOUNT
-  stack_p2.size = SIZE_CURRENT_PAD
-
-  stack_sd0.backgroundColor = COLOR_WHITE
-  stack_sc0.backgroundColor = COLOR_WHITE
-  stack_sd1.backgroundColor = COLOR_WHITE
-  stack_sc1.backgroundColor = COLOR_WHITE
-
+  //stack_current.size = SIZE_CURRENT
   text_day.font = FONT_DAY
   text_date.font = FONT_DATE
 }
