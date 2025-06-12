@@ -136,9 +136,9 @@ async function buildReminders(today, reminders, stack_reminders)
 
 async function buildAllDayEventStack(event, stack_title)
 {
-  stack_title.backgroundColor = COLOR_WHITE
-
   const text_title = stack_title.addText(event.name)
+
+  stack_title.backgroundColor = COLOR_WHITE
 
   text_title.font = FONT_ALL_DAY_EVENT
   text_title.textColor = COLOR_BG
