@@ -143,17 +143,27 @@ async function buildReminders(today, reminders, stack_reminders)
   }
 }
 
-async function buildAllDayEventStack(event, stack_title)
+function addEvent(events, event)
+{
+  events.push
+  ({
+    id: event.identifier,
+    name: event.title,
+    startDate: event.startDate,
+    endDate: event.endDate,
+  })
+}
+
+function buildAllDayEventStack(event, stack_title)
 {
   const text_title = stack_title.addText(event.name)
 
   stack_title.backgroundColor = COLOR_WHITE
-
   text_title.font = FONT_ALL_DAY_EVENT
   text_title.textColor = COLOR_BG
 }
 
-async function buildEventStack(event, stack_title, stack_time)
+function buildEventStack(event, stack_title, stack_time)
 {
   const text_title = stack_title.addText(event.name)
   const text_time_start = DF_TIME.string(event.startDate)
@@ -163,19 +173,16 @@ async function buildEventStack(event, stack_title, stack_time)
   text_time.font = FONT_TIME
   stack_title.backgroundColor = COLOR_WHITE
   stack_time.backgroundColor = COLOR_WHITE
-
   text_title.font = FONT_EVENT
   text_title.textColor = COLOR_BG
-
   text_time.textColor = COLOR_BG
 }
 
-async function buildRemainderStack(stack_remainder, count)
+function buildRemainderStack(stack_remainder, count)
 {
-  const text_summary = stack_remainder.addText("... +" + count + " more events")
+  const text_summary = stack_remainder.addText("... +" + count + count == 1 ? " more event" : " more events")
 
   stack_remainder.backgroundColor = COLOR_WHITE
-
   text_summary.font = FONT_REMAINDER
   text_summary.textColor = COLOR_BG
 }
@@ -192,82 +199,61 @@ async function buildEvents(today, events, stack_events)
     const compare_end = text_event_end.localeCompare("23:59")
 
     if (compare_start == 0 && compare_end == 0)
-    {
-      all_day_events_today.push
-      ({
-        id: event.identifier,
-        name: event.title,
-        startDate: event.startDate,
-        endDate: event.endDate,
-      })
-    }
+      addEvent(all_day_events_today, event)
+//    {
+//      all_day_events_today.push
+//      ({
+//        id: event.identifier,
+//        name: event.title,
+//        startDate: event.startDate,
+//        endDate: event.endDate,
+//      })
+//    }
     else if (event.startDate.getTime() > today.getTime())
-    {
-      events_today.push
-      ({
-        id: event.identifier,
-        name: event.title,
-        startDate: event.startDate,
-        endDate: event.endDate,
-      })
-    }
+      addEvent(events_today, event)
+//    {
+//      events_today.push
+//      ({
+//        id: event.identifier,
+//        name: event.title,
+//        startDate: event.startDate,
+//        endDate: event.endDate,
+//      })
+//    }
   }
 
-  const stack_pad0 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
-  const stack_all_day_title0 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_ALL_DAY_TITLE)
-  const stack_pad1 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
-  const stack_all_day_title1 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_ALL_DAY_TITLE)
-  const stack_pad2 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
-  const stack_title0 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_TITLE)
-  const stack_time0 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_TIME)
-  const stack_pad3 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
-  const stack_title1 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_TITLE)
-  const stack_time1 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_TIME)
-  const stack_pad4 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
-  const stack_remainder = buildStack(stack_events, COLOR_BG, SIZE_EVENT_REMAINDER)
-  const stack_pad5 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
+  const stack_p0   = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
+  const stack_adt0 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_ALL_DAY_TITLE)
+  const stack_p1   = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
+  const stack_adt1 = buildStack(stack_events, COLOR_BG, SIZE_EVENT_ALL_DAY_TITLE)
+  const stack_p2   = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
+  const stack_t0   = buildStack(stack_events, COLOR_BG, SIZE_EVENT_TITLE)
+  const stack_d0   = buildStack(stack_events, COLOR_BG, SIZE_EVENT_TIME)
+  const stack_p3   = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
+  const stack_t1   = buildStack(stack_events, COLOR_BG, SIZE_EVENT_TITLE)
+  const stack_d1   = buildStack(stack_events, COLOR_BG, SIZE_EVENT_TIME)
+  const stack_p4   = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
+  const stack_r    = buildStack(stack_events, COLOR_BG, SIZE_EVENT_REMAINDER)
+  const stack_p5   = buildStack(stack_events, COLOR_BG, SIZE_EVENT_PAD)
 
-//  stack_events.size = SIZE_EVENT
-//  stack_pad0.size = SIZE_EVENT_PAD
-//  stack_pad1.size = SIZE_EVENT_PAD
-//  stack_pad2.size = SIZE_EVENT_PAD
-//  stack_pad3.size = SIZE_EVENT_PAD
-//  stack_pad4.size = SIZE_EVENT_PAD
-//  stack_pad5.size = SIZE_EVENT_PAD
-////  stack_all_day_title0.size = SIZE_EVENT_ALL_DAY_TITLE
-//  stack_all_day_title1.size = SIZE_EVENT_ALL_DAY_TITLE
-//  stack_title0.size = SIZE_EVENT_TITLE
-//  stack_title1.size = SIZE_EVENT_TITLE
-//  stack_time0.size = SIZE_EVENT_TIME
-//  stack_time1.size = SIZE_EVENT_TIME
-//  stack_remainder.size = SIZE_EVENT_REMAINDER
-//  stack_events.backgroundColor = COLOR_BG
-//  stack_pad0.backgroundColor = COLOR_BG
-//  stack_pad1.backgroundColor = COLOR_BG
-//  stack_pad2.backgroundColor = COLOR_BG
-//  stack_pad3.backgroundColor = COLOR_BG
-//  stack_pad4.backgroundColor = COLOR_BG
-//  stack_pad5.backgroundColor = COLOR_BG
-////  stack_all_day_title0.backgroundColor = COLOR_BG
-//  stack_all_day_title1.backgroundColor = COLOR_BG
-//  stack_title0.backgroundColor = COLOR_BG
-//  stack_title1.backgroundColor = COLOR_BG
-//  stack_time0.backgroundColor = COLOR_BG
-//  stack_time1.backgroundColor = COLOR_BG
-//  stack_remainder.backgroundColor = COLOR_BG
-
+  // check for first all day event
   if (all_day_events_today.length > 0)
-    buildAllDayEventStack(all_day_events_today[0], stack_all_day_title0)
+    buildAllDayEventStack(all_day_events_today[0], stack_adt0)
+  // check for second all day event
   if (all_day_events_today.length > 1)
-    buildAllDayEventStack(all_day_events_today[1], stack_all_day_title1)
+    buildAllDayEventStack(all_day_events_today[1], stack_adt1)
+  // check for today's first event
   if (events_today.length > 0)
-    buildEventStack(events_today[0], stack_title0, stack_time0)
+    buildEventStack(events_today[0], stack_t0, stack_d0)
+  // check for today's second event
   if (events_today.length > 1)
-    buildEventStack(events_today[1], stack_title1, stack_time1)
+    buildEventStack(events_today[1], stack_t1, stack_d1)
+  // check if there are three events today
   if (events_today.length == 3)
-    buildRemainderStack(stack_remainder, 1)
+    buildRemainderStack(stack_r, 1)
+  // check if there are four or more events today
   if (events_today.length > 3)
-    buildRemainderStack(stack_remainder, events_today.length - 2)
+    buildRemainderStack(stack_r, events_today.length - 2)
 }
 
 async function buildLine(stack_line)
