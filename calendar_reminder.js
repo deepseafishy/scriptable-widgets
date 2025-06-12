@@ -33,7 +33,7 @@ const FONT_TIME          = Font.regularMonospacedSystemFont(13)
 const FONT_REMINDER      = Font.semiboldSystemFont(15)
 const FONT_REMAINDER     = Font.regularMonospacedSystemFont(13)
 const FONT_FUTURE_DATE   = Font.mediumSystemFont(20)
-const FONT_FUTURE_ALERT  = Font.regularMonospacedSystemFont(6)
+const FONT_FUTURE_DATE   = Font.mediumSystemFont(7)
 
 const DF_DAY  = new DateFormatter(); DF_DAY.dateFormat  = "E"
 const DF_DATE = new DateFormatter(); DF_DATE.dateFormat = "d"
@@ -103,10 +103,10 @@ function buildRemainderStack(stack_remainder, count, postfix)
 
 function buildFutureAlert(stack_future, date, reminders)
 {
-  const stack_date   = buildStack(stack_future, COLOR_WHITE, SIZE_CURRENT_FDATE)
+  const stack_date   = buildStack(stack_future, COLOR_BG, SIZE_CURRENT_FDATE)
   const stack_alerts = buildStack(stack_future, COLOR_WHITE, SIZE_CURRENT_FALERT)
   stack_alerts.layoutVertically()
-  const stack_es     = buildStack(stack_alerts, COLOR_WHITE, SIZE_CURRENT_FCOUNT)
+  const stack_es     = buildStack(stack_alerts, COLOR_BG, SIZE_CURRENT_FCOUNT)
   const stack_rms    = buildStack(stack_alerts, COLOR_WHITE, SIZE_CURRENT_FCOUNT)
 
 //  // find events
@@ -131,12 +131,16 @@ function buildFutureAlert(stack_future, date, reminders)
   // set number of events
 //  const text_es = stack_es.addText("+" + count_es)
   const text_es = stack_es.addText("+10")
+  stack_es.centerAlignContent()
+  text_es.centerAlignText()
   text_es.font = FONT_FUTURE_ALERT
   text_es.color = COLOR_BG
 
   // set number of reminders
 //  const text_rms = stack_rms.addText("+" + count_rms)
   const text_rms = stack_rms.addText("+11")
+  stack_rms.centerAlignContent()
+  text_rms.centerAlignText()
   text_rms.font = FONT_FUTURE_ALERT
   text_rms.color = COLOR_BG
 }
