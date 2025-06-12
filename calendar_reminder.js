@@ -128,16 +128,16 @@ async function buildReminders(today, reminders, stack_reminders)
 
   // check for first reminder
   if (reminders_today.length > 0)
-    buildReminderStack(stack_reminder, reminders_today[0].name)
+    buildReminderStack(stack_rm0, reminders_today[0].name)
   // check for second reminder
   if (reminders_today.length > 1)
-    buildReminderStack(stack_reminder, reminders_today[1].name)
+    buildReminderStack(stack_rm1, reminders_today[1].name)
   // check for third reminder
   if (reminders_today.length > 2)
-    buildReminderStack(stack_reminder, reminders_today[2].name)
+    buildReminderStack(stack_rm2, reminders_today[2].name)
   // check for fourth reminder
   if (reminders_today.length > 3)
-    buildReminderStack(stack_reminder, reminders_today[3].name)
+    buildReminderStack(stack_rm3, reminders_today[3].name)
   // check if there are five reminders today
   if (reminders_today.length == 5)
     buildRemainderStack(stack_r, 1, "reminder")
