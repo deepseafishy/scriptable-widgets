@@ -32,6 +32,8 @@ const FONT_EVENT         = Font.semiboldMonospacedSystemFont(18)
 const FONT_TIME          = Font.regularMonospacedSystemFont(13)
 const FONT_REMINDER      = Font.semiboldSystemFont(15)
 const FONT_REMAINDER     = Font.regularMonospacedSystemFont(13)
+const FONT_FUTURE_DATE   = Font.mediumSystemFont(20)
+const FONT_FUTURE_ALERT  = Font.regularMonospacedSystemFont(6)
 
 const DF_DAY  = new DateFormatter(); DF_DAY.dateFormat  = "E"
 const DF_DATE = new DateFormatter(); DF_DATE.dateFormat = "d"
@@ -99,7 +101,7 @@ function buildRemainderStack(stack_remainder, count, postfix)
   text_summary.textColor = COLOR_BG
 }
 
-async function buildFutureAlert(stack_future, date)
+function buildFutureAlert(stack_future, events, reminders)
 {
   const stack_date   = buildStack(stack_future, COLOR_WHITE, SIZE_CURRENT_FDATE)
   const stack_alerts = buildStack(stack_future, COLOR_WHITE, SIZE_CURRENT_FALERT)
@@ -107,9 +109,6 @@ async function buildFutureAlert(stack_future, date)
   const stack_es     = buildStack(stack_alerts, COLOR_WHITE, SIZE_CURRENT_FCOUNT)
   const stack_rms    = buildStack(stack_alerts, COLOR_WHITE, SIZE_CURRENT_FCOUNT)
 
-//  const events = await CalendarEvent.tomorrow([])
-//  const reminders = await Reminder.all([])
-//
 //  // find events
 //  let count_es = 0
 //  for (const e of events)
@@ -126,16 +125,19 @@ async function buildFutureAlert(stack_future, date)
   const text_date = stack_date.addText(DF_DATE.string(date))
   stack_date.centerAlignContent()
   text_date.centerAlignText()
+  text_date.font = FONT_FUTURE_DATE
   text_date.color = COLOR_BG
 
   // set number of events
 //  const text_es = stack_es.addText("+" + count_es)
   const text_es = stack_es.addText("+10")
+  text_es.font = FONT_FUTURE_ALERT
   text_es.color = COLOR_BG
 
   // set number of reminders
 //  const text_rms = stack_rms.addText("+" + count_rms)
   const text_rms = stack_rms.addText("+11")
+  text_rms.font = FONT_FUTURE_ALERT
   text_rms.color = COLOR_BG
 }
 
@@ -247,7 +249,7 @@ async function buildLine(stack_line)
   stack_line.backgroundColor = COLOR_WHITE
 }
 
-async function buildCurrent(today, stack_current)
+async function buildCurrent(today, reminders, stack_current)
 {
   const stack_day  = buildStack(stack_current, COLOR_BG,    SIZE_CURRENT_DAY)
   const stack_date = buildStack(stack_current, COLOR_BG,    SIZE_CURRENT_DATE)
@@ -263,6 +265,8 @@ async function buildCurrent(today, stack_current)
 
   const plus_one = new Date()
   const plus_two = new Date()
+  const events_tom = await CalendarEvent.tomorrow([])
+  const events_dat = await CalendarEvent.tomorrow([])
 
   // set up today's day and date
   stack_day.centerAlignContent()
@@ -274,10 +278,10 @@ async function buildCurrent(today, stack_current)
 
   // show number of tomorrow's events and reminders
   plus_one.setDate(today.getDate() + 1)
-  buildFutureAlert(stack_f0, plus_one)
+  buildFutureAlert(stack_f0, plus_one, events_tom, reminders)
   // show number of day after tomorrow's events and reminders
   plus_two.setDate(today.getDate() + 2)
-  buildFutureAlert(stack_f1, plus_two)
+  buildFutureAlert(stack_f1, plus_two, events_dat, reminders)
 }
 
 async function buildMediumWidget()
@@ -297,7 +301,7 @@ async function buildMediumWidget()
   stack_events.layoutVertically()
   stack_reminders.layoutVertically()
 
-  buildCurrent(today, stack_current)
+  buildCurrent(today, reminders, stack_current)
   buildLine(stack_line)
   buildEvents(today, events, stack_events)
   stack_pad.size = SIZE_PAD
