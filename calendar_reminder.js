@@ -229,13 +229,13 @@ async function buildCurrent(today, stack_current)
   stack_current.size = SIZE_CURRENT
   stack_day.size = SIZE_CURRENT_DAY
   stack_date.size = SIZE_CURRENT_DATE
-  stack_p0 = SIZE_CURRENT_PAD
-  stack_sd0 = SIZE_CURRENT_SDATE
-  stack_sc0 = SIZE_CURRENT_SCOUNT
-  stack_p1 = SIZE_CURRENT_PAD
-  stack_sd1 = SIZE_CURRENT_SDATE
-  stack_sc1 = SIZE_CURRENT_SCOUNT
-  stack_p2 = SIZE_CURRENT_PAD
+  stack_p0.size = SIZE_CURRENT_PAD
+  stack_sd0.size = SIZE_CURRENT_SDATE
+  stack_sc0.size = SIZE_CURRENT_SCOUNT
+  stack_p1.size = SIZE_CURRENT_PAD
+  stack_sd1.size = SIZE_CURRENT_SDATE
+  stack_sc1.size = SIZE_CURRENT_SCOUNT
+  stack_p2.size = SIZE_CURRENT_PAD
 
   stack_sd0.backgroundColor = COLOR_WHITE
   stack_sc0.backgroundColor = COLOR_WHITE
