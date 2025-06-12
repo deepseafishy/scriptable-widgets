@@ -101,26 +101,26 @@ function buildRemainderStack(stack_remainder, count, postfix)
 
 async function buildFutureAlert(stack_future, date)
 {
-  const stack_date   = buildStack(stack_future, COLOR_BG, SIZE_CURRENT_FDATE)
-  const stack_alerts = buildStack(stack_future, COLOR_BG, SIZE_CURRENT_FALERT)
+  const stack_date   = buildStack(stack_future, COLOR_WHITE, SIZE_CURRENT_FDATE)
+  const stack_alerts = buildStack(stack_future, COLOR_WHITE, SIZE_CURRENT_FALERT)
   stack_alerts.layoutVertically()
-  const stack_es     = buildStack(stack_alerts, COLOR_BG, SIZE_CURRENT_FCOUNT)
-  const stack_rms    = buildStack(stack_alerts, COLOR_BG, SIZE_CURRENT_FCOUNT)
+  const stack_es     = buildStack(stack_alerts, COLOR_WHITE, SIZE_CURRENT_FCOUNT)
+  const stack_rms    = buildStack(stack_alerts, COLOR_WHITE, SIZE_CURRENT_FCOUNT)
 
-//  const events = await CalendarEvent.tomorrow([])
-//  const reminders = await Reminder.all([])
-//
-//  // find events
-//  let count_es = 0
-//  for (const e of events)
-//    if (e.startDate.getTime() > date.getTime())
-//      count_es += 1
-//
-//  // find reminders
-//  let count_rms = 0
-//  for (const reminder of reminders)
-//    if (!reminder.isCompleted && reminder.dueDate != null && reminder.dueDate.getDate() == date.getDate())
-//      count_rms += 1
+  const events = await CalendarEvent.tomorrow([])
+  const reminders = await Reminder.all([])
+
+  // find events
+  let count_es = 0
+  for (const e of events)
+    if (e.startDate.getTime() > date.getTime())
+      count_es += 1
+
+  // find reminders
+  let count_rms = 0
+  for (const reminder of reminders)
+    if (!reminder.isCompleted && reminder.dueDate != null && reminder.dueDate.getDate() == date.getDate())
+      count_rms += 1
 
   // set date
   const text_date = stack_date.addText(DF_DATE.string(date))
@@ -128,10 +128,10 @@ async function buildFutureAlert(stack_future, date)
   text_date.centerAlignText()
   text_date.color = COLOR_BG
 
-//  const text_es = stack_es.addText(count_es)
-//  text_es.color = COLOR_BG
-//  const text_rms = stack_es.addText(count_rms)
-//  text_rms.color = COLOR_BG
+  const text_es = stack_es.addText(count_es)
+  text_es.color = COLOR_BG
+  const text_rms = stack_es.addText(count_rms)
+  text_rms.color = COLOR_BG
 }
 
 async function buildReminders(today, reminders, stack_reminders)
@@ -269,10 +269,10 @@ async function buildCurrent(today, stack_current)
 
   // show number of tomorrow's events and reminders
   plus_one.setDate(today.getDate() + 1)
-  buildFuture(stack_f1, plus_one)
+  buildFuture(stack_f0, plus_one)
   // show number of day after tomorrow's events and reminders
   plus_two.setDate(today.getDate() + 2)
-  buildFuture(stack_f2, plus_two)
+  buildFuture(stack_f1, plus_two)
 }
 
 async function buildMediumWidget()
