@@ -37,6 +37,15 @@ DF_DATE.dateFormat = "d"
 const DF_TIME = new DateFormatter()
 DF_TIME.dateFormat = "HH:mm"
 
+async function buildStack(parent_stack, size, backgroundColor)
+{
+  stack = parent_stack.addStack()
+  stack.size = size;
+  stack.backgroundColor = backgroundColor
+
+  return stack
+}
+
 async function buildReminders(today, reminders, stack_reminders)
 {
   const stack_pad0 = stack_reminders.addStack()
@@ -205,7 +214,8 @@ async function buildEvents(today, events, stack_events)
   }
 
   const stack_pad0 = stack_events.addStack()
-  const stack_all_day_title0 = stack_events.addStack()
+  const stack_all_day_title0 = buildStack(stack_events, SIZE_EVENT_ALL_DAY_TITLE, COLOR_BG)
+//  const stack_all_day_title0 = stack_events.addStack()
   const stack_pad1 = stack_events.addStack()
   const stack_all_day_title1 = stack_events.addStack()
   const stack_pad2 = stack_events.addStack()
@@ -225,7 +235,7 @@ async function buildEvents(today, events, stack_events)
   stack_pad3.size = SIZE_EVENT_PAD
   stack_pad4.size = SIZE_EVENT_PAD
   stack_pad5.size = SIZE_EVENT_PAD
-  stack_all_day_title0.size = SIZE_EVENT_ALL_DAY_TITLE
+//  stack_all_day_title0.size = SIZE_EVENT_ALL_DAY_TITLE
   stack_all_day_title1.size = SIZE_EVENT_ALL_DAY_TITLE
   stack_title0.size = SIZE_EVENT_TITLE
   stack_title1.size = SIZE_EVENT_TITLE
@@ -239,7 +249,7 @@ async function buildEvents(today, events, stack_events)
   stack_pad3.backgroundColor = COLOR_BG
   stack_pad4.backgroundColor = COLOR_BG
   stack_pad5.backgroundColor = COLOR_BG
-  stack_all_day_title0.backgroundColor = COLOR_BG
+//  stack_all_day_title0.backgroundColor = COLOR_BG
   stack_all_day_title1.backgroundColor = COLOR_BG
   stack_title0.backgroundColor = COLOR_BG
   stack_title1.backgroundColor = COLOR_BG
