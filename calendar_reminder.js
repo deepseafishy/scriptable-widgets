@@ -164,9 +164,9 @@ async function buildEventStack(event, stack_title, stack_time)
 
 async function buildRemainderStack(stack_remainder, count)
 {
-  stack_remainder.backgroundColor = COLOR_WHITE
-
   const text_summary = stack_remainder.addText("... +" + count + " more events")
+
+  stack_remainder.backgroundColor = COLOR_WHITE
 
   text_summary.font = FONT_REMAINDER
   text_summary.textColor = COLOR_BG
