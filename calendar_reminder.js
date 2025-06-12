@@ -99,7 +99,7 @@ function buildRemainderStack(stack_remainder, count, postfix)
   text_summary.textColor = COLOR_BG
 }
 
-function buildFutureAlert(stack_future, date)
+async function buildFutureAlert(stack_future, date)
 {
   const stack_date   = buildStack(stack_future, COLOR_BG, SIZE_CURRENT_FDATE)
   const stack_alerts = buildStack(stack_future, COLOR_BG, SIZE_CURRENT_FALERT)
@@ -107,28 +107,31 @@ function buildFutureAlert(stack_future, date)
   const stack_es     = buildStack(stack_alerts, COLOR_BG, SIZE_CURRENT_FCOUNT)
   const stack_rms    = buildStack(stack_alerts, COLOR_BG, SIZE_CURRENT_FCOUNT)
 
-  const events = await CalendarEvent.tomorrow([])
-  const reminders = await Reminder.all([])
-
-  // find events
-  let count_es = 0
-  for (const e of events)
-    if (e.startDate.getTime() > date.getTime())
-      count_es += 1
-
-  // find reminders
-  let count_rms = 0
-  for (const reminder of reminders)
-    if (!reminder.isCompleted && reminder.dueDate != null && reminder.dueDate.getDate() == date.getDate())
-      count_rms += 1
+//  const events = await CalendarEvent.tomorrow([])
+//  const reminders = await Reminder.all([])
+//
+//  // find events
+//  let count_es = 0
+//  for (const e of events)
+//    if (e.startDate.getTime() > date.getTime())
+//      count_es += 1
+//
+//  // find reminders
+//  let count_rms = 0
+//  for (const reminder of reminders)
+//    if (!reminder.isCompleted && reminder.dueDate != null && reminder.dueDate.getDate() == date.getDate())
+//      count_rms += 1
 
   // set date
   const text_date = stack_date.addText(DF_DATE.string(date))
   stack_date.centerAlignContent()
   text_date.centerAlignText()
+  text_date.color = COLOR_BG
 
-  const text_es = stack_es.addText(count_es)
-  const text_rms = stack_es.addText(count_rms)
+//  const text_es = stack_es.addText(count_es)
+//  text_es.color = COLOR_BG
+//  const text_rms = stack_es.addText(count_rms)
+//  text_rms.color = COLOR_BG
 }
 
 async function buildReminders(today, reminders, stack_reminders)
@@ -253,8 +256,8 @@ async function buildCurrent(today, stack_current)
   const text_day = stack_day.addText(DF_DAY.string(today))
   const text_date = stack_date.addText(DF_DATE.string(today))
 
-  const plus_one = new Date(today)
-  const plus_two = new Date(today)
+  const plus_one = new Date()
+  const plus_two = new Date()
 
   // set up today's day and date
   stack_day.centerAlignContent()
