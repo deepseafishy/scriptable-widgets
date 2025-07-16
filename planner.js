@@ -1,51 +1,50 @@
 // colors
-const COLOR_BG         = new Color("242424", 1)
-const COLOR_WHITE      = new Color("FFFFFF", 1)
-const COLOR_GRAY       = new Color("808080", 1)
+const COLOR_BG          = new Color("242424", 1)
+const COLOR_WHITE       = new Color("FFFFFF", 1)
+const COLOR_GRAY        = new Color("808080", 1)
 
 // major stack sizes
-// const SIZE_TOTAL    = new Size(320, 160)
-const SIZE_STACK_D     = new Size(320,  38)
-const SIZE_STACK_H     = new Size(320,  10)
-const SIZE_STACK_L     = new Size(320,   2)
-const SIZE_STACK_C     = new Size(320, 110)
-const SIZE_STACK_E     = new Size(145, 110)
-const SIZE_STACK_R     = new Size(145, 110)
-const SIZE_STACK_P     = new Size( 10, 110)
-const SIZE_STACK_PAD   = new Size(145,   5)
+// const SIZE_TOTAL     = new Size(320, 160)
+const SIZE_STACK_D      = new Size(320,  38)
+const SIZE_STACK_H      = new Size(320,  10)
+const SIZE_STACK_L      = new Size(320,   2)
+const SIZE_STACK_C      = new Size(320, 110)
+const SIZE_STACK_E      = new Size(145, 110)
+const SIZE_STACK_R      = new Size(145, 110)
+const SIZE_STACK_P      = new Size( 10, 110)
+const SIZE_STACK_PAD    = new Size(145,   5)
+const SIZE_STACK_RS     = new Size(145,  11)
 
 // date stack sizes
-const SIZE_STACK_DB    = new Size( 40,  38)
-const SIZE_STACK_DAY   = new Size( 40,  10)
-const SIZE_STACK_DATE  = new Size( 40,  18)
-const SIZE_STACK_ALERT = new Size( 40,  10)
-const SIZE_STACK_BDAY  = new Size( 40,  15)
-const SIZE_STACK_BDATE = new Size( 40,  25)
+const SIZE_STACK_DB     = new Size( 40,  38)
+const SIZE_STACK_DAY    = new Size( 40,  10)
+const SIZE_STACK_DATE   = new Size( 40,  18)
+const SIZE_STACK_ALERT  = new Size( 40,  10)
+const SIZE_STACK_BDAY   = new Size( 40,  15)
+const SIZE_STACK_BDATE  = new Size( 40,  25)
 
 // habit stack sizes
-const SIZE_STACK_HB    = new Size( 10,  10)
-const SIZE_DOT         = 50
-const SIZE_ACTUAL_DOT  = new Size(  4,   4)
+const SIZE_STACK_HB     = new Size( 10,  10)
+const SIZE_DOT          = 50
+const SIZE_ACTUAL_DOT   = new Size(  4,   4)
 
 // event stack sizes
-const SIZE_STACK_ADE   = new Size(145,  14)
-const SIZE_STACK_EVENT = new Size(145,  24)
-const SIZE_STACK_ETIME = new Size( 70,  24)
-const SIZE_STACK_ETIMEP = new Size( 70,  12)
-const SIZE_STACK_ENAME = new Size( 75,  24)
-
-const SIZE_EVENT_REMAINDER     = new Size(145, 11)
-const SIZE_EVENT_PAD   = new Size(145,   5)
+const SIZE_STACK_ADE    = new Size(145,  14)
+const SIZE_STACK_EVENT  = new Size(145,  24)
+const SIZE_STACK_ETIME  = new Size( 50,  24)
+const SIZE_STACK_ETIMEP = new Size( 50,  12)
+const SIZE_STACK_ENAME  = new Size( 95,  24)
 
 // fonts
-const FONT_DAY         = Font.regularMonospacedSystemFont(8)
-const FONT_DATE        = Font.mediumSystemFont(18)
-const FONT_ALERT       = Font.mediumSystemFont(8)
-const FONT_BDAY        = Font.semiboldMonospacedSystemFont(11)
-const FONT_BDATE       = Font.semiboldSystemFont(28)
-const FONT_ADE         = Font.semiboldMonospacedSystemFont(13)
-const FONT_ENAME       = Font.semiboldMonospacedSystemFont(13)
-const FONT_ETIME       = Font.regularMonospacedSystemFont(10)
+const FONT_DAY          = Font.regularMonospacedSystemFont(8)
+const FONT_DATE         = Font.mediumSystemFont(18)
+const FONT_ALERT        = Font.mediumSystemFont(8)
+const FONT_BDAY         = Font.semiboldMonospacedSystemFont(11)
+const FONT_BDATE        = Font.semiboldSystemFont(28)
+const FONT_ADE          = Font.boldMonospacedSystemFont(12)
+const FONT_ENAME        = Font.semiboldMonospacedSystemFont(13)
+const FONT_ETIME        = Font.regularMonospacedSystemFont(10)
+const FONT_REMAINDER    = Font.mediumMonospacedSystemFont(12)
 
 // date formats
 const DF_DAY  = new DateFormatter()
@@ -81,6 +80,18 @@ function addText(stack, bg_color, content, font, color)
   text.textColor = color
 }
 
+function addRemainder(stack, events, limit, postfix_str)
+{
+  const stack_pad = addStack(stack, SIZE_STACK_PAD, COLOR_BG)
+  const stack_r   = addStack(stack,  SIZE_STACK_RS, COLOR_BG)
+
+  if (events.length > limit)
+  {
+    const postfix = events.length - limit == 1 ? " " + postifx_str + "..." : " " + postfix_str + "s..."
+    addText(stack_r, COLOR_BG, "+" + events.length - limit + postfix, FONT_REMAINDER, COLOR_WHITE)
+  }
+}
+
 function addEvent(stack, events, idx)
 {
   const stack_pad   = addStack(      stack,    SIZE_STACK_PAD, COLOR_BG)
@@ -96,6 +107,7 @@ function addEvent(stack, events, idx)
     addText(stack_stime, COLOR_WHITE, DF_TIME.string(events[idx].startDate), FONT_ETIME, COLOR_BG)
     addText(stack_etime, COLOR_WHITE,   DF_TIME.string(events[idx].endDate), FONT_ETIME, COLOR_BG)
     addText( stack_name, COLOR_WHITE,                      events[idx].name, FONT_ENAME, COLOR_BG)
+    stack_name.addSpacer()
   }
 }
 
@@ -105,7 +117,7 @@ function addAllDayEvent(stack, events, idx)
   const stack_event = addStack(stack, SIZE_STACK_ADE, COLOR_BG)
 
   if (events.length > idx)
-    addText(stack_event, COLOR_BG, events[idx].name, FONT_ADE, COLOR_BG)
+    addText(stack_event, COLOR_WHITE, events[idx].name, FONT_ADE, COLOR_BG)
 }
 
 function pushEvent(events, evnt)
@@ -165,16 +177,7 @@ function drawEvents(stack, events)
   addAllDayEvent(stack, today_ades, 1)
   addEvent(stack, today_events, 0)
   addEvent(stack, today_events, 1)
-
-  const stack_p4   = addStack(stack,           SIZE_EVENT_PAD,    COLOR_BG)
-  const stack_r    = addStack(stack,     SIZE_EVENT_REMAINDER, COLOR_WHITE)
-
-//  // check if there are three events today
-//  if (events_today.length == 3)
-//    addRemainderStack(stack_r, 1, "event")
-//  // check if there are four or more events today
-//  else if (events_today.length > 3)
-//    addRemainderStack(stack_r, today_events.length - 2, "events")
+  addRemainder(stack, today_events, 2)
 }
 
 function drawHabits(stack)
