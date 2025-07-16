@@ -4,16 +4,18 @@ const COLOR_PURPLE = new Color("8C107A", 1)
 const COLOR_GREEN  = new Color("518E18", 1)
 const COLOR_ORANGE = new Color("FF671E", 1)
 
-const SIZE_TOTAL   = new Size(320, 160)
-const SIZE_STACK_D = new Size(320,  40)
-const SIZE_STACK_E = new Size(320,  10)
-const SIZE_STACK_L = new Size(320,   2)
-const SIZE_STACK_C = new Size(320, 110)
+const SIZE_TOTAL       = new Size(320, 160)
+const SIZE_STACK_D     = new Size(320,  40)
+const SIZE_STACK_E     = new Size(320,  10)
+const SIZE_STACK_L     = new Size(320,   2)
+const SIZE_STACK_C     = new Size(320, 110)
 
-const SIZE_STACK_BLOCK = new Size( 40,  40)
+const SIZE_STACK_DB    = new Size( 40,  40)
 const SIZE_STACK_DAY   = new Size( 40,  10)
 const SIZE_STACK_DATE  = new Size( 40,  20)
 const SIZE_STACK_ALERT = new Size( 40,  10)
+
+const SIZE_STACK_EB    = new Size( 10,  10)
 
 const FONT_DAY         = Font.regularMonospacedSystemFont(8)
 const FONT_DATE        = Font.mediumSystemFont(20)
@@ -26,14 +28,17 @@ DF_DATE.dateFormat = "d"
 const DF_TIME = new DateFormatter()
 DF_TIME.dateFormat = "HH:mm"
 
-//function drawDot(size, color) {
-//  const ctx = new DrawContext()
-//  ctx.size = new Size(size, size)
-//  ctx.opaque = false
-//  ctx.setFillColor(color)
-//  ctx.fillEllipse(new Rect(0, 0, size, size))
-//  return ctx.getImage()
-//}
+function drawDot(size, color)
+{
+  const ctx = new DrawContext()
+
+  ctx.size = new Size(size, size)
+  ctx.opaque = false
+  ctx.setFillColor(color)
+  ctx.fillEllipse(new Rect(0, 0, size, size))
+
+  return ctx.getImage()
+}
 
 function addWhiteText(stack, content, font)
 {
@@ -55,6 +60,18 @@ function addStack(stack, size, color)
   return stack_child
 }
 
+function drawExcercises(stack)
+{
+  for (let i = 0; i < 31; ++i)
+  {
+    const stack_block = addStack(stack, SIZE_STACK_EB, COLOR_BG)
+    const image = drawDot(10, COLOR_WHITE)
+    const dot = stack_block.addImage(image)
+
+    dot.imageSize = SIZE_STACK_EB
+  }
+}
+
 function drawDates(stack)
 {
   for (let i = 0; i < 7; ++i)
@@ -62,7 +79,7 @@ function drawDates(stack)
     // create date
     const date = new Date(new Date().getTime() + i * 24 * 60 * 60 * 1000)
     // create block stack
-    const stack_block = addStack(      stack, SIZE_STACK_BLOCK, COLOR_BG)
+    const stack_block = addStack(      stack,    SIZE_STACK_DB, COLOR_BG)
 
     // create day, date, and alert stack
     stack_block.layoutVertically()
@@ -100,6 +117,7 @@ async function buildMediumWidget()
   stack_c.backgroundColor = COLOR_ORANGE
 
   drawDates(stack_d)
+  drawExcercises(stack_e)
 
   return widget
 }
