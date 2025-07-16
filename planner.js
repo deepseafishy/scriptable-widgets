@@ -151,8 +151,9 @@ function drawReminders(stack)
 function drawEvents(stack, events)
 {
   // find today's events
-  let all_day_events_today = []
-  let events_today = []
+  const today = new Date()
+  let today_ades = []
+  let today_events = []
   for (const evnt of events)
   {
     const text_sevent = DF_TIME.string(evnt.startDate)
@@ -161,16 +162,16 @@ function drawEvents(stack, events)
     const ecompare = text_eevent.localeCompare("23:59")
 
     if (scompare == 0 && ecompare == 0)
-      pushEvent(all_day_events_today, e)
-    else if (evnt.startDate.getTime() > today.getTime())
-      pushEvent(events_today, e)
+      pushEvent(today_ades, evnt)
+    else if (evnt.startDate.getTime() > Date().getTime())
+      pushEvent(today_events, evnt)
   }
 
   stack.layoutVertically()
-  addAllDayEvent(stack, all_day_events_today, 0)
-  addAllDayEvent(stack, all_day_events_today, 1)
-  addEvent(stack, events_today, 0)
-  addEvent(stack, events_today, 1)
+  addAllDayEvent(stack, today_ades, 0)
+  addAllDayEvent(stack, today_ades, 1)
+  addEvent(stack, today_events, 0)
+  addEvent(stack, today_events, 1)
 
   const stack_p4   = addStack(stack,           SIZE_EVENT_PAD,    COLOR_BG)
   const stack_r    = addStack(stack,     SIZE_EVENT_REMAINDER, COLOR_WHITE)
@@ -180,7 +181,7 @@ function drawEvents(stack, events)
     addRemainderStack(stack_r, 1, "event")
   // check if there are four or more events today
   else if (events_today.length > 3)
-    addRemainderStack(stack_r, events_today.length - 2, "events")
+    addRemainderStack(stack_r, today_events.length - 2, "events")
 }
 
 function drawHabits(stack)
