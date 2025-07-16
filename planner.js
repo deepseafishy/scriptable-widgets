@@ -29,8 +29,9 @@ const SIZE_ACTUAL_DOT  = new Size(  4,   4)
 
 // event stack sizes
 const SIZE_STACK_ADE   = new Size(145,  14)
-const SIZE_STACK_ENAME = new Size(145,  14)
-const SIZE_STACK_ETIME = new Size(145,  10)
+const SIZE_STACK_EVENT = new Size(145,  24)
+const SIZE_STACK_ETIME = new Size( 70,  24)
+const SIZE_STACK_ENAME = new Size( 75,  24)
 
 const SIZE_EVENT_REMAINDER     = new Size(145, 11)
 const SIZE_EVENT_PAD   = new Size(145,   5)
@@ -70,16 +71,17 @@ function drawDot(stack, dot_resolution, size, color)
 
 function addEvent(stack, events, idx)
 {
-  const stack_pad  = addStack(stack,   SIZE_STACK_PAD, COLOR_BG)
-  const stack_name = addStack(stack, SIZE_STACK_ENAME, COLOR_BG)
-  const stack_time = addStack(stack, SIZE_STACK_ETIME, COLOR_BG)
+  const stack_pad  = addStack(  stack,   SIZE_STACK_PAD, COLOR_BG)
+  const stack_e    = addStack(  stack, SIZE_STACK_EVENT, COLOR_BG)
+  const stack_time = addStack(stack_e, SIZE_STACK_ETIME, COLOR_BG)
+  const stack_name = addStack(stack_e, SIZE_STACK_ENAME, COLOR_BG)
 
   if (events.length > idx)
   {
     const text_stime = DF_TIME.string(events[idx].startDate)
     const text_etime = DF_TIME.string(events[idx].endDate)
-    const text_name = stack_name.addText(events[idx].name)
     const text_time = stack_time.addText(text_stime + " ~ " + text_etime)
+    const text_name = stack_name.addText(events[idx].name)
 
     stack_name.backgroundColor = COLOR_WHITE
     stack_time.backgroundColor = COLOR_WHITE
@@ -163,7 +165,7 @@ function drawEvents(stack, events)
 
     if (scompare == 0 && ecompare == 0)
       pushEvent(today_ades, evnt)
-    else if (evnt.startDate.getTime() > Date().getTime())
+    else if (evnt.startDate.getTime() > today.getTime())
       pushEvent(today_events, evnt)
   }
 
@@ -176,12 +178,12 @@ function drawEvents(stack, events)
   const stack_p4   = addStack(stack,           SIZE_EVENT_PAD,    COLOR_BG)
   const stack_r    = addStack(stack,     SIZE_EVENT_REMAINDER, COLOR_WHITE)
 
-  // check if there are three events today
-  if (events_today.length == 3)
-    addRemainderStack(stack_r, 1, "event")
-  // check if there are four or more events today
-  else if (events_today.length > 3)
-    addRemainderStack(stack_r, today_events.length - 2, "events")
+//  // check if there are three events today
+//  if (events_today.length == 3)
+//    addRemainderStack(stack_r, 1, "event")
+//  // check if there are four or more events today
+//  else if (events_today.length > 3)
+//    addRemainderStack(stack_r, today_events.length - 2, "events")
 }
 
 function drawHabits(stack)
