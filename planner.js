@@ -16,6 +16,8 @@ const SIZE_STACK_DATE  = new Size( 40,  20)
 const SIZE_STACK_ALERT = new Size( 40,  10)
 
 const SIZE_STACK_EB    = new Size( 10,  10)
+const SIZE_DOT         = 50
+const SIZE_ACTUAL_DOT  = new Size(  4,   4)
 
 const FONT_DAY         = Font.regularMonospacedSystemFont(8)
 const FONT_DATE        = Font.mediumSystemFont(20)
@@ -28,16 +30,19 @@ DF_DATE.dateFormat = "d"
 const DF_TIME = new DateFormatter()
 DF_TIME.dateFormat = "HH:mm"
 
-function drawDot(size, color)
+function drawDot(stack, dot_size, size, color)
 {
   const ctx = new DrawContext()
 
-  ctx.size = new Size(size, size)
+  ctx.size = new Size(dot_resolution, dot_resolution)
   ctx.opaque = false
   ctx.setFillColor(color)
-  ctx.fillEllipse(new Rect(0, 0, size, size))
+  ctx.fillEllipse(new Rect(0, 0, dot_resolution, dot_resolution))
 
-  return ctx.getImage()
+  const dot = stack.addImage(ctx.getImage())
+
+  stack.centerAlignContent()
+  dot.imageSize = size
 }
 
 function addWhiteText(stack, content, font)
@@ -65,10 +70,8 @@ function drawExcercises(stack)
   for (let i = 0; i < 31; ++i)
   {
     const stack_block = addStack(stack, SIZE_STACK_EB, COLOR_BG)
-    const image = drawDot(10, COLOR_WHITE)
-    const dot = stack_block.addImage(image)
 
-    dot.imageSize = SIZE_STACK_EB
+    drawDot(stack_block, 50, SIZE_ACTUAL_DOT, COLOR_WHITE)
   }
 }
 
