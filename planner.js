@@ -36,7 +36,7 @@ const SIZE_STACK_ETIMEP = new Size( 50,  12)
 const SIZE_STACK_ENAME  = new Size( 95,  24)
 
 // reminder stack sizes
-const SIZE_STACK_RNAME  = new Size(145,18.5)
+const SIZE_STACK_RNAME  = new Size(145, 18)
 
 // fonts
 const FONT_DAY          = Font.regularMonospacedSystemFont(8)
@@ -47,7 +47,7 @@ const FONT_BDATE        = Font.semiboldSystemFont(28)
 const FONT_ADE          = Font.boldMonospacedSystemFont(12)
 const FONT_ENAME        = Font.semiboldMonospacedSystemFont(13)
 const FONT_ETIME        = Font.regularMonospacedSystemFont(10)
-const FONT_RNAME        = Font.semiboldMonospacedSystemFont(15)
+const FONT_RNAME        = Font.semiboldMonospacedSystemFont(14)
 const FONT_REMAINDER    = Font.mediumMonospacedSystemFont(12)
 
 // date formats
@@ -162,9 +162,10 @@ function addStack(stack, size, color)
   return stack_child
 }
 
-function drawReminders(stack)
+function drawReminders(stack, reminders)
 {
   // find today's reminders
+  const today = new Date()
   let today_reminders = []
   for (const reminder of reminders)
   {
@@ -184,12 +185,14 @@ function drawReminders(stack)
     }
   }
   // sort reminders in ascending order
-  reminders_today.sort((a, b) => a.dd - b.dd)
+  today_reminders.sort((a, b) => a.dd - b.dd)
 
+  stack.layoutVertically()
   addReminder(stack, today_reminders, 0)
   addReminder(stack, today_reminders, 1)
   addReminder(stack, today_reminders, 2)
   addReminder(stack, today_reminders, 3)
+  addStack(stack_c, new Size(145, 4), COLOR_BG)
   addRemainder(stack, today_reminders, 4, "reminder")
 }
 
@@ -285,7 +288,7 @@ async function buildMediumWidget()
   drawDates(stack_d)
   drawHabits(stack_h)
   drawEvents(stack_e, events)
-  drawReminders(stack_r)
+  drawReminders(stack_r, reminders)
 
   return widget
 }
