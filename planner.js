@@ -15,9 +15,9 @@ const SIZE_STACK_DATE  = new Size( 40,  10)
 const SIZE_STACK_DAY   = new Size( 40,  20)
 const SIZE_STACK_ALERT = new Size( 40,  10)
 
-const FONT_DAY         = Font.regularMonospacedSystemFont(5)
+const FONT_DAY         = Font.regularMonospacedSystemFont(8)
 const FONT_DATE        = Font.mediumSystemFont(20)
-const FONT_ALERT       = Font.mediumSystemFont(5)
+const FONT_ALERT       = Font.mediumSystemFont(8)
 
 const DF_DAY  = new DateFormatter()
 DF_DAY.dateFormat = "E"
@@ -35,33 +35,43 @@ DF_TIME.dateFormat = "HH:mm"
 //  return ctx.getImage()
 //}
 
+function addWhiteText(stack, content, font)
+{
+  const text = stack.addText(content)
+
+  stack.centerAlignContent()
+  text.centerAlignText()
+  text.font = font
+  text.textColor = COLOR_WHITE
+}
+
+function addStack(stack, size, color)
+{
+  const stack_child = stack.addStack()
+
+  stack_child.size = size
+  stack_child.backgroundColor = color
+
+  return stack_child
+}
+
 function drawDate(stack, offset)
 {
+  // create date
   const date = new Date(new Date().getTime() + offset * 24 * 60 * 60 * 1000)
-  const stack_block = stack.addStack()
+  // create block stack
+  const stack_block = addStack(      stack, SIZE_STACK_BLOCK, COLOR_BG)
 
+  // create day, date, and alert stacks
   stack_block.layoutVertically()
-  stack_block.size = SIZE_STACK_BLOCK
-  stack_block.backgroundColor = COLOR_BG
+  const stack_day   = addStack(stack_block,   SIZE_STACK_DAY, COLOR_BG)
+  const stack_date  = addStack(stack_block,  SIZE_STACK_DATE, COLOR_BG)
+  const stack_alert = addStack(stack_block, SIZE_STACK_ALERT, COLOR_BG)
 
-  const stack_day = stack_block.addStack()
-  const stack_date = stack_block.addStack()
-  const stack_alert = stack_block.addStack()
-
-  stack_day.size = SIZE_STACK_DAY
-  stack_date.size = SIZE_STACK_DATE
-  stack_alert.size = SIZE_STACK_ALERT
-
-  const text_day = stack_day.addText(DF_DAY.string(date))
-  const text_date = stack_day.addText(DF_DATE.string(date))
-  const text_alert = stack_day.addText("+11")
-
-  text_day.textColor = COLOR_WHITE
-  text_day.font = FONT_DAY
-  text_date.textColor = COLOR_WHITE
-  text_date.font = FONT_DATE
-  text_alert.textColor = COLOR_WHITE
-  text_alert.font = FONT_ALERT 
+  // add content to day, date, and alert stacks
+  addWhiteText(  stack_day,  DF_DAY.string(date),   FONT_DAY)
+  addWhiteText( stack_date, DF_DATE.string(date),  FONT_DATE)
+  addWhiteText(stack_alert,                "+11", FONT_ALERT)
 }
 
 function drawDates(stack)
