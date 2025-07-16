@@ -12,8 +12,9 @@ const SIZE_STACK_C     = new Size(320, 110)
 
 const SIZE_STACK_DB    = new Size( 40,  40)
 const SIZE_STACK_DAY   = new Size( 40,  10)
-const SIZE_STACK_DATE  = new Size( 40,  20)
 const SIZE_STACK_ALERT = new Size( 40,  10)
+const SIZE_STACK_BDAY  = new Size( 40,  15)
+const SIZE_STACK_BDATE = new Size( 40,  25)
 
 const SIZE_STACK_EB    = new Size( 10,  10)
 const SIZE_DOT         = 50
@@ -22,6 +23,8 @@ const SIZE_ACTUAL_DOT  = new Size(  4,   4)
 const FONT_DAY         = Font.regularMonospacedSystemFont(8)
 const FONT_DATE        = Font.mediumSystemFont(20)
 const FONT_ALERT       = Font.mediumSystemFont(8)
+const FONT_BDAY        = Font.mediumMonospacedSystemFont(10)
+const FONT_BDATE       = Font.semiboldSystemFont(25)
 
 const DF_DAY  = new DateFormatter()
 DF_DAY.dateFormat = "E"
@@ -30,7 +33,7 @@ DF_DATE.dateFormat = "d"
 const DF_TIME = new DateFormatter()
 DF_TIME.dateFormat = "HH:mm"
 
-function drawDot(stack, dot_size, size, color)
+function drawDot(stack, dot_resolution, size, color)
 {
   const ctx = new DrawContext()
 
@@ -71,7 +74,7 @@ function drawExcercises(stack)
   {
     const stack_block = addStack(stack, SIZE_STACK_EB, COLOR_BG)
 
-    drawDot(stack_block, 50, SIZE_ACTUAL_DOT, COLOR_WHITE)
+    drawDot(stack_block, /*dot_resolution*/ 50, SIZE_ACTUAL_DOT, COLOR_WHITE)
   }
 }
 
@@ -82,18 +85,28 @@ function drawDates(stack)
     // create date
     const date = new Date(new Date().getTime() + i * 24 * 60 * 60 * 1000)
     // create block stack
-    const stack_block = addStack(      stack,    SIZE_STACK_DB, COLOR_BG)
+    const stack_block = addStack(stack, SIZE_STACK_DB, COLOR_BG)
 
     // create day, date, and alert stack
     stack_block.layoutVertically()
-    const stack_day   = addStack(stack_block,   SIZE_STACK_DAY, COLOR_BG)
-    const stack_date  = addStack(stack_block,  SIZE_STACK_DATE, COLOR_BG)
-    const stack_alert = addStack(stack_block, SIZE_STACK_ALERT, COLOR_BG)
+    if (i == 0)
+    {
+      const stack_day   = addStack(stack_block,  SIZE_STACK_BDAY, COLOR_BG)
+      const stack_date  = addStack(stack_block, SIZE_STACK_BDATE, COLOR_BG)
 
-    // add content to day, date, and alert stacks
-    addWhiteText(  stack_day,  DF_DAY.string(date),   FONT_DAY)
-    addWhiteText( stack_date, DF_DATE.string(date),  FONT_DATE)
-    addWhiteText(stack_alert,                "+11", FONT_ALERT)
+      addWhiteText(  stack_day,  DF_DAY.string(date),  FONT_BDAY)
+      addWhiteText( stack_date, DF_DATE.string(date), FONT_BDATE)
+    }
+    else
+    {
+      const stack_day   = addStack(stack_block,   SIZE_STACK_DAY, COLOR_BG)
+      const stack_date  = addStack(stack_block,  SIZE_STACK_DATE, COLOR_BG)
+      const stack_alert = addStack(stack_block, SIZE_STACK_ALERT, COLOR_BG)
+
+      addWhiteText(  stack_day,  DF_DAY.string(date),   FONT_DAY)
+      addWhiteText( stack_date, DF_DATE.string(date),  FONT_DATE)
+      addWhiteText(stack_alert,                "+11", FONT_ALERT)
+    }
   }
 }
 
@@ -108,12 +121,10 @@ async function buildMediumWidget()
   stack.layoutVertically()
   // create dates, excercises, line, and contents stack
   const stack_d = addStack(stack, SIZE_STACK_D, COLOR_BG)
-  const stack_e = stack.addStack()
+  const stack_e = addStack(stack, SIZE_STACK_E, COLOR_BG)
   const stack_l = stack.addStack()
   const stack_c = stack.addStack()
 
-  stack_e.size = SIZE_STACK_E
-  stack_e.backgroundColor = COLOR_GREEN
   stack_l.size = SIZE_STACK_L
   stack_l.backgroundColor = COLOR_WHITE
   stack_c.size = SIZE_STACK_C
