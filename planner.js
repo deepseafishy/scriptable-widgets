@@ -31,6 +31,7 @@ const SIZE_ACTUAL_DOT  = new Size(  4,   4)
 const SIZE_STACK_ADE   = new Size(145,  14)
 const SIZE_STACK_EVENT = new Size(145,  24)
 const SIZE_STACK_ETIME = new Size( 70,  24)
+const SIZE_STACK_ETIMEP = new Size( 70,  12)
 const SIZE_STACK_ENAME = new Size( 75,  24)
 
 const SIZE_EVENT_REMAINDER     = new Size(145, 11)
@@ -69,26 +70,32 @@ function drawDot(stack, dot_resolution, size, color)
   dot.imageSize = size
 }
 
+function addText(stack, bg_color, content, font, color)
+{
+  const text = stack.addText(content)
+
+  stack.centerAlignContent()
+  stack.backgroundColor = bg_color
+  text.centerAlignText()
+  text.font = font
+  text.textColor = color
+}
+
 function addEvent(stack, events, idx)
 {
-  const stack_pad  = addStack(  stack,   SIZE_STACK_PAD, COLOR_BG)
-  const stack_e    = addStack(  stack, SIZE_STACK_EVENT, COLOR_BG)
-  const stack_time = addStack(stack_e, SIZE_STACK_ETIME, COLOR_BG)
-  const stack_name = addStack(stack_e, SIZE_STACK_ENAME, COLOR_BG)
+  const stack_pad   = addStack(      stack,    SIZE_STACK_PAD, COLOR_BG)
+  const stack_event = addStack(      stack,  SIZE_STACK_EVENT, COLOR_BG)
+  const stack_time  = addStack(stack_event,  SIZE_STACK_ETIME, COLOR_BG)
+  const stack_name  = addStack(stack_event,  SIZE_STACK_ENAME, COLOR_BG)
+  stack_time.layoutVertically()
+  const stack_stime = addStack( stack_time, SIZE_STACK_ETIMEP, COLOR_BG)
+  const stack_etime = addStack( stack_time, SIZE_STACK_ETIMEP, COLOR_BG)
 
   if (events.length > idx)
   {
-    const text_stime = DF_TIME.string(events[idx].startDate)
-    const text_etime = DF_TIME.string(events[idx].endDate)
-    const text_time = stack_time.addText(text_stime + " ~ " + text_etime)
-    const text_name = stack_name.addText(events[idx].name)
-
-    stack_name.backgroundColor = COLOR_WHITE
-    stack_time.backgroundColor = COLOR_WHITE
-    text_name.font = FONT_ENAME
-    text_time.font = FONT_ETIME
-    text_name.textColor = COLOR_BG
-    text_time.textColor = COLOR_BG
+    addText(stack_stime, COLOR_WHITE, DF_TIME.string(events[idx].startDate), FONT_ETIME, COLOR_BG)
+    addText(stack_etime, COLOR_WHITE,   DF_TIME.string(events[idx].endDate), FONT_ETIME, COLOR_BG)
+    addText( stack_name, COLOR_WHITE,                      events[idx].name, FONT_ENAME, COLOR_BG)
   }
 }
 
@@ -98,13 +105,7 @@ function addAllDayEvent(stack, events, idx)
   const stack_event = addStack(stack, SIZE_STACK_ADE, COLOR_BG)
 
   if (events.length > idx)
-  {
-    const text_title = stack_event.addText(events[idx].name)
-
-    stack_event.backgroundColor = COLOR_WHITE
-    text_title.font = FONT_ADE
-    text_title.textColor = COLOR_BG
-  }
+    addText(stack_event, COLOR_BG, events[idx].name, FONT_ADE, COLOR_BG)
 }
 
 function pushEvent(events, evnt)
@@ -116,16 +117,6 @@ function pushEvent(events, evnt)
     startDate: evnt.startDate,
     endDate: evnt.endDate,
   })
-}
-
-function addWhiteText(stack, content, font)
-{
-  const text = stack.addText(content)
-
-  stack.centerAlignContent()
-  text.centerAlignText()
-  text.font = font
-  text.textColor = COLOR_WHITE
 }
 
 function addLine(stack, size, color)
@@ -210,8 +201,8 @@ function drawDates(stack)
       const stack_day   = addStack(stack_block,  SIZE_STACK_BDAY, COLOR_BG)
       const stack_date  = addStack(stack_block, SIZE_STACK_BDATE, COLOR_BG)
 
-      addWhiteText(  stack_day,  DF_DAY.string(date),  FONT_BDAY)
-      addWhiteText( stack_date, DF_DATE.string(date), FONT_BDATE)
+      addText(  stack_day, COLOR_BG,  DF_DAY.string(date),  FONT_BDAY, COLOR_WHITE)
+      addText( stack_date, COLOR_BG, DF_DATE.string(date), FONT_BDATE, COLOR_WHITE)
     }
     else
     {
@@ -219,9 +210,9 @@ function drawDates(stack)
       const stack_date  = addStack(stack_block,  SIZE_STACK_DATE, COLOR_BG)
       const stack_alert = addStack(stack_block, SIZE_STACK_ALERT, COLOR_BG)
 
-      addWhiteText(  stack_day,  DF_DAY.string(date),   FONT_DAY)
-      addWhiteText( stack_date, DF_DATE.string(date),  FONT_DATE)
-      addWhiteText(stack_alert,                "+11", FONT_ALERT)
+      addText(  stack_day, COLOR_BG,  DF_DAY.string(date),   FONT_DAY, COLOR_WHITE)
+      addText( stack_date, COLOR_BG, DF_DATE.string(date),  FONT_DATE, COLOR_WHITE)
+      addText(stack_alert, COLOR_BG,                "+11", FONT_ALERT, COLOR_WHITE)
     }
   }
 }
