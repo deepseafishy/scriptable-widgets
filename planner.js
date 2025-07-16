@@ -10,7 +10,17 @@ const SIZE_STACK_E = new Size(320,  10)
 const SIZE_STACK_L = new Size(320,   2)
 const SIZE_STACK_C = new Size(320, 110)
 
-const SIZE_STACK_DATE = new Size( 40,  40)
+const SIZE_STACK_BLOCK = new Size( 40,  40)
+const SIZE_STACK_DATE  = new Size( 40,  10)
+const SIZE_STACK_DAY   = new Size( 40,  20)
+const SIZE_STACK_ALERT = new Size( 40,  10)
+
+const DF_DAY  = new DateFormatter()
+DF_DAY.dateFormat = "E"
+const DF_DATE = new DateFormatter()
+DF_DATE.dateFormat = "d"
+const DF_TIME = new DateFormatter()
+DF_TIME.dateFormat = "HH:mm"
 
 //function drawDot(size, color) {
 //  const ctx = new DrawContext()
@@ -21,14 +31,30 @@ const SIZE_STACK_DATE = new Size( 40,  40)
 //  return ctx.getImage()
 //}
 
-function drawDate(stack, date)
+function drawDate(stack, offset)
 {
-  const stack_date = stack.addStack()
-  stack_date.size = SIZE_STACK_DATE
+  const date = new Date(new Date().getTime() + offset * 24 * 60 * 60 * 1000)
+  const stack_block = stack.addStack()
+
+  stack_block.layoutVertically()
+  stack_date.size = SIZE_STACK_BLOCK
   stack_date.backgroundColor = COLOR_BG
-  const stack_temp = stack.addStack()
-  stack_temp.size = new Size(2, 40)
-  stack_temp.backgroundColor = COLOR_WHITE
+
+  const stack_day = stack_block.addStack()
+  const stack_date = stack_block.addStack()
+  const stack_alert = stack_block.addStack()
+
+  stack_day.size = SIZE_STACK_DAY
+  stack_date.size = SIZE_STACK_DATE
+  stack_alert.size = SIZE_STACK_ALERT
+
+  const text_day = stack_day.addText(DF_DAY.string(date))
+  const text_date = stack_day.addText(DF_DATE.string(date))
+  const text_alert = stack_day.addText("+11")
+
+  text_day.textColor = COLOR_WHITE
+  text_date.textColor = COLOR_WHITE
+  text_alert.textColor = COLOR_WHITE
 }
 
 function drawDates(stack)
