@@ -29,9 +29,11 @@ const SIZE_ACTUAL_DOT  = new Size(  4,   4)
 
 // event stack sizes
 const SIZE_STACK_ADE   = new Size(145,  14)
-const SIZE_EVENT_TITLE         = new Size(145, 14)
-const SIZE_EVENT_TIME          = new Size(145, 10)
+const SIZE_STACK_ENAME = new Size(145,  14)
+const SIZE_STACK_ETIME = new Size(145,  10)
+
 const SIZE_EVENT_REMAINDER     = new Size(145, 11)
+const SIZE_EVENT_PAD   = new Size(145,   5)
 
 // fonts
 const FONT_DAY         = Font.regularMonospacedSystemFont(8)
@@ -40,9 +42,8 @@ const FONT_ALERT       = Font.mediumSystemFont(8)
 const FONT_BDAY        = Font.semiboldMonospacedSystemFont(11)
 const FONT_BDATE       = Font.semiboldSystemFont(28)
 const FONT_ADE         = Font.semiboldMonospacedSystemFont(13)
-
-const FONT_EVENT       = Font.semiboldMonospacedSystemFont(18)
-const FONT_TIME        = Font.regularMonospacedSystemFont(13)
+const FONT_ENAME       = Font.semiboldMonospacedSystemFont(13)
+const FONT_ETIME       = Font.regularMonospacedSystemFont(10)
 
 // date formats
 const DF_DAY  = new DateFormatter()
@@ -67,19 +68,26 @@ function drawDot(stack, dot_resolution, size, color)
   dot.imageSize = size
 }
 
-function addEventStack(e, stack_title, stack_time)
+function addEvent(stack, events, idx)
 {
-  const text_title = stack_title.addText(e.name)
-  const text_time_start = DF_TIME.string(e.startDate)
-  const text_time_end = DF_TIME.string(e.endDate)
-  const text_time = stack_time.addText(text_time_start + " ~ " + text_time_end)
+  const stack_pad  = addStack(stack,   SIZE_STACK_PAD, COLOR_BG)
+  const stack_name = addStack(stack, SIZE_STACK_ENAME, COLOR_BG)
+  const stack_time = addStack(stack, SIZE_STACK_ETIME, COLOR_BG)
 
-  text_time.font = FONT_TIME
-  stack_title.backgroundColor = COLOR_WHITE
-  stack_time.backgroundColor = COLOR_WHITE
-  text_title.font = FONT_EVENT
-  text_title.textColor = COLOR_BG
-  text_time.textColor = COLOR_BG
+  if (events.length > idx)
+  {
+    const text_stime = DF_TIME.string(events[idx].startDate)
+    const text_etime = DF_TIME.string(events[idx].endDate)
+    const text_name = stack_name.addText(events[idx].name)
+    const text_time = stack_time.addText(text_stime + " ~ " + text_etime)
+
+    stack_name.backgroundColor = COLOR_WHITE
+    stack_time.backgroundColor = COLOR_WHITE
+    text_name.font = FONT_ENAME
+    text_time.font = FONT_ETIME
+    text_name.textColor = COLOR_BG
+    text_time.textColor = COLOR_BG
+  }
 }
 
 function addAllDayEvent(stack, events, idx)
@@ -161,22 +169,12 @@ function drawEvents(stack, events)
   stack.layoutVertically()
   addAllDayEvent(stack, all_day_events_today, 0)
   addAllDayEvent(stack, all_day_events_today, 1)
+  addEvent(stack, events_today, 0)
+  addEvent(stack, events_today, 1)
 
-  const stack_p2   = addStack(stack,           SIZE_EVENT_PAD,    COLOR_BG)
-  const stack_t0   = addStack(stack,         SIZE_EVENT_TITLE, COLOR_WHITE)
-  const stack_d0   = addStack(stack,          SIZE_EVENT_TIME, COLOR_WHITE)
-  const stack_p3   = addStack(stack,           SIZE_EVENT_PAD,    COLOR_BG)
-  const stack_t1   = addStack(stack,         SIZE_EVENT_TITLE, COLOR_WHITE)
-  const stack_d1   = addStack(stack,          SIZE_EVENT_TIME, COLOR_WHITE)
   const stack_p4   = addStack(stack,           SIZE_EVENT_PAD,    COLOR_BG)
   const stack_r    = addStack(stack,     SIZE_EVENT_REMAINDER, COLOR_WHITE)
 
-  // check for today's first event
-  if (events_today.length > 0)
-    addEventStack(events_today[0], stack_t0, stack_d0)
-  // check for today's second event
-  if (events_today.length > 1)
-    addEventStack(events_today[1], stack_t1, stack_d1)
   // check if there are three events today
   if (events_today.length == 3)
     addRemainderStack(stack_r, 1, "event")
