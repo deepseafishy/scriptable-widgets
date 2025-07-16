@@ -63,6 +63,17 @@ function drawDot(stack, dot_resolution, size, color)
   dot.imageSize = size
 }
 
+function addEvent(events, e)
+{
+  events.push
+  ({
+    id: e.identifier,
+    name: e.title,
+    startDate: e.startDate,
+    endDate: e.endDate,
+  })
+}
+
 function addWhiteText(stack, content, font)
 {
   const text = stack.addText(content)
