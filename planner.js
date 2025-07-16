@@ -15,6 +15,10 @@ const SIZE_STACK_DATE  = new Size( 40,  10)
 const SIZE_STACK_DAY   = new Size( 40,  20)
 const SIZE_STACK_ALERT = new Size( 40,  10)
 
+const FONT_DAY         = Font.regularMonospacedSystemFont(5)
+const FONT_DATE        = Font.mediumSystemFont(20)
+const FONT_ALERT       = Font.mediumSystemFont(5)
+
 const DF_DAY  = new DateFormatter()
 DF_DAY.dateFormat = "E"
 const DF_DATE = new DateFormatter()
@@ -37,8 +41,8 @@ function drawDate(stack, offset)
   const stack_block = stack.addStack()
 
   stack_block.layoutVertically()
-  stack_date.size = SIZE_STACK_BLOCK
-  stack_date.backgroundColor = COLOR_BG
+  stack_block.size = SIZE_STACK_BLOCK
+  stack_block.backgroundColor = COLOR_BG
 
   const stack_day = stack_block.addStack()
   const stack_date = stack_block.addStack()
@@ -53,8 +57,11 @@ function drawDate(stack, offset)
   const text_alert = stack_day.addText("+11")
 
   text_day.textColor = COLOR_WHITE
+  text_day.font = FONT_DAY
   text_date.textColor = COLOR_WHITE
+  text_date.font = FONT_DATE
   text_alert.textColor = COLOR_WHITE
+  text_alert.font = FONT_ALERT 
 }
 
 function drawDates(stack)
