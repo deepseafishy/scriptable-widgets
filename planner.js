@@ -192,7 +192,7 @@ function drawReminders(stack, reminders)
   addReminder(stack, today_reminders, 1)
   addReminder(stack, today_reminders, 2)
   addReminder(stack, today_reminders, 3)
-  addStack(stack_c, new Size(145, 4), COLOR_BG)
+  addStack(stack, new Size(145, 4), COLOR_BG)
   addRemainder(stack, today_reminders, 4, "reminder")
 }
 
