@@ -4,11 +4,11 @@ const COLOR_PURPLE = new Color("8C107A", 1)
 const COLOR_GREEN  = new Color("518E18", 1)
 const COLOR_ORANGE = new Color("FF671E", 1)
 
-const SIZE_TOTAL   = new Size(160, 150)
-const SIZE_STACK_D = new Size( 40, 150)
-const SIZE_STACK_E = new Size( 10, 150)
-const SIZE_STACK_L = new Size(  2, 150)
-const SIZE_STACK_C = new Size(110, 150)
+const SIZE_TOTAL   = new Size(150, 160)
+const SIZE_STACK_D = new Size(150,  40)
+const SIZE_STACK_E = new Size(150,  10)
+const SIZE_STACK_L = new Size(150,   2)
+const SIZE_STACK_C = new Size(150, 110)
 
 //function drawDot(size, color) {
 //  const ctx = new DrawContext()
