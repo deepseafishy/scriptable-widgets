@@ -5,14 +5,14 @@ const COLOR_GRAY   = new Color("808080", 1)
 const COLOR_ORANGE = new Color("FF671E", 1)
 
 // major stack sizes
-// const SIZE_TOTAL    = new Size(320, 150)
+// const SIZE_TOTAL    = new Size(320, 160)
 const SIZE_STACK_D     = new Size(320,  38)
 const SIZE_STACK_H     = new Size(320,  10)
 const SIZE_STACK_L     = new Size(320,   2)
-const SIZE_STACK_C     = new Size(320, 100)
-const SIZE_STACK_E     = new Size(145, 100)
-const SIZE_STACK_R     = new Size(145, 100)
-const SIZE_STACK_P     = new Size( 10, 100)
+const SIZE_STACK_C     = new Size(320, 110)
+const SIZE_STACK_E     = new Size(145, 110)
+const SIZE_STACK_R     = new Size(145, 110)
+const SIZE_STACK_P     = new Size( 10, 110)
 
 // date stack sizes
 const SIZE_STACK_DB    = new Size( 40,  38)
@@ -28,11 +28,11 @@ const SIZE_DOT         = 50
 const SIZE_ACTUAL_DOT  = new Size(  4,   4)
 
 // event stack sizes
-const SIZE_EVENT_PAD           = new Size(145,   4)
-const SIZE_EVENT_ALL_DAY_TITLE = new Size(145,  14)
-const SIZE_EVENT_TITLE         = new Size(145,  14)
-const SIZE_EVENT_TIME          = new Size(145,   7)
-const SIZE_EVENT_REMAINDER     = new Size(145,  14)
+const SIZE_EVENT_PAD           = new Size(145,  5)
+const SIZE_EVENT_ALL_DAY_TITLE = new Size(145, 14)
+const SIZE_EVENT_TITLE         = new Size(145, 14)
+const SIZE_EVENT_TIME          = new Size(145, 10)
+const SIZE_EVENT_REMAINDER     = new Size(145, 14)
 
 // fonts
 const FONT_DAY         = Font.regularMonospacedSystemFont(8)
@@ -110,7 +110,7 @@ function drawReminders(stack)
 function drawEvents(stack, events)
 {
   stack.layoutVertically()
-  const stack_p0   = addStack(stack,           SIZE_EVENT_PAD,    COLOR_BG)
+  const stack_p0   = addStack(stack,         new Size(145, 8),    COLOR_BG)
   const stack_adt0 = addStack(stack, SIZE_EVENT_ALL_DAY_TITLE, COLOR_WHITE)
   const stack_p1   = addStack(stack,           SIZE_EVENT_PAD,    COLOR_BG)
   const stack_adt1 = addStack(stack, SIZE_EVENT_ALL_DAY_TITLE, COLOR_WHITE)
