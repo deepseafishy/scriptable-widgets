@@ -32,7 +32,7 @@ const SIZE_EVENT_PAD           = new Size(145,  5)
 const SIZE_EVENT_ALL_DAY_TITLE = new Size(145, 14)
 const SIZE_EVENT_TITLE         = new Size(145, 14)
 const SIZE_EVENT_TIME          = new Size(145, 10)
-const SIZE_EVENT_REMAINDER     = new Size(145, 14)
+const SIZE_EVENT_REMAINDER     = new Size(145, 11)
 
 // fonts
 const FONT_DAY         = Font.regularMonospacedSystemFont(8)
@@ -40,6 +40,10 @@ const FONT_DATE        = Font.mediumSystemFont(18)
 const FONT_ALERT       = Font.mediumSystemFont(8)
 const FONT_BDAY        = Font.semiboldMonospacedSystemFont(11)
 const FONT_BDATE       = Font.semiboldSystemFont(28)
+
+const FONT_ALL_DAY_EVENT = Font.semiboldMonospacedSystemFont(13)
+const FONT_EVENT         = Font.semiboldMonospacedSystemFont(18)
+const FONT_TIME          = Font.regularMonospacedSystemFont(13)
 
 // date formats
 const DF_DAY  = new DateFormatter()
@@ -62,6 +66,30 @@ function drawDot(stack, dot_resolution, size, color)
 
   stack.centerAlignContent()
   dot.imageSize = size
+}
+
+function addAllDayEventStack(e, stack_title)
+{
+  const text_title = stack_title.addText(e.name)
+
+  stack_title.backgroundColor = COLOR_WHITE
+  text_title.font = FONT_ALL_DAY_EVENT
+  text_title.textColor = COLOR_BG
+}
+
+function addEventStack(e, stack_title, stack_time)
+{
+  const text_title = stack_title.addText(e.name)
+  const text_time_start = DF_TIME.string(e.startDate)
+  const text_time_end = DF_TIME.string(e.endDate)
+  const text_time = stack_time.addText(text_time_start + " ~ " + text_time_end)
+
+  text_time.font = FONT_TIME
+  stack_title.backgroundColor = COLOR_WHITE
+  stack_time.backgroundColor = COLOR_WHITE
+  text_title.font = FONT_EVENT
+  text_title.textColor = COLOR_BG
+  text_time.textColor = COLOR_BG
 }
 
 function addEvent(events, e)
@@ -139,24 +167,24 @@ function drawEvents(stack, events)
       addEvent(events_today, e)
   }
 
-//  // check for first all day event
-//  if (all_day_events_today.length > 0)
-//    buildAllDayEventStack(all_day_events_today[0], stack_adt0)
-//  // check for second all day event
-//  if (all_day_events_today.length > 1)
-//    buildAllDayEventStack(all_day_events_today[1], stack_adt1)
-//  // check for today's first event
-//  if (events_today.length > 0)
-//    buildEventStack(events_today[0], stack_t0, stack_d0)
-//  // check for today's second event
-//  if (events_today.length > 1)
-//    buildEventStack(events_today[1], stack_t1, stack_d1)
-//  // check if there are three events today
-//  if (events_today.length == 3)
-//    buildRemainderStack(stack_r, 1, "event")
-//  // check if there are four or more events today
-//  else if (events_today.length > 3)
-//    buildRemainderStack(stack_r, events_today.length - 2, "events")
+  // check for first all day event
+  if (all_day_events_today.length > 0)
+    addAllDayEventStack(all_day_events_today[0], stack_adt0)
+  // check for second all day event
+  if (all_day_events_today.length > 1)
+    addAllDayEventStack(all_day_events_today[1], stack_adt1)
+  // check for today's first event
+  if (events_today.length > 0)
+    addEventStack(events_today[0], stack_t0, stack_d0)
+  // check for today's second event
+  if (events_today.length > 1)
+    addEventStack(events_today[1], stack_t1, stack_d1)
+  // check if there are three events today
+  if (events_today.length == 3)
+    addRemainderStack(stack_r, 1, "event")
+  // check if there are four or more events today
+  else if (events_today.length > 3)
+    addRemainderStack(stack_r, events_today.length - 2, "events")
 }
 
 function drawHabits(stack)
