@@ -35,6 +35,9 @@ const SIZE_STACK_ETIME  = new Size( 50,  24)
 const SIZE_STACK_ETIMEP = new Size( 50,  12)
 const SIZE_STACK_ENAME  = new Size( 95,  24)
 
+// reminder stack sizes
+const SIZE_STACK_RNAME  = new Size(145,18.5)
+
 // fonts
 const FONT_DAY          = Font.regularMonospacedSystemFont(8)
 const FONT_DATE         = Font.mediumSystemFont(18)
@@ -44,6 +47,7 @@ const FONT_BDATE        = Font.semiboldSystemFont(28)
 const FONT_ADE          = Font.boldMonospacedSystemFont(12)
 const FONT_ENAME        = Font.semiboldMonospacedSystemFont(13)
 const FONT_ETIME        = Font.regularMonospacedSystemFont(10)
+const FONT_RNAME        = Font.semiboldMonospacedSystemFont(15)
 const FONT_REMAINDER    = Font.mediumMonospacedSystemFont(12)
 
 // date formats
@@ -87,9 +91,18 @@ function addRemainder(stack, events, limit, postfix_str)
 
   if (events.length > limit)
   {
-    const postfix = events.length - limit == 1 ? " " + postifx_str + "..." : " " + postfix_str + "s..."
-    addText(stack_r, COLOR_BG, "+" + events.length - limit + postfix, FONT_REMAINDER, COLOR_WHITE)
+    const postfix = events.length - limit == 1 ? postfix_str + "..." : postfix_str + "s..."
+    addText(stack_r, COLOR_BG, "+" + (events.length - limit) + " more " + postfix, FONT_REMAINDER, COLOR_WHITE)
   }
+}
+
+function addReminder(stack, reminders, idx)
+{
+  const stack_pad = addStack(stack,   SIZE_STACK_PAD, COLOR_BG)
+  const stack_r   = addStack(stack, SIZE_STACK_RNAME, COLOR_BG)
+
+  if (reminders.length > idx)
+    addText(stack_r, COLOR_BG, reminders[idx].name, FONT_RNAME, COLOR_WHITE)
 }
 
 function addEvent(stack, events, idx)
@@ -151,6 +164,33 @@ function addStack(stack, size, color)
 
 function drawReminders(stack)
 {
+  // find today's reminders
+  let today_reminders = []
+  for (const reminder of reminders)
+  {
+    if (
+      !reminder.isCompleted && reminder.dueDate != null &&
+      reminder.dueDate.getDate() == today.getDate() &&
+      reminder.dueDate.getMonth() == today.getMonth() &&
+      reminder.dueDate.getFullYear() == today.getFullYear()
+    )
+    {
+      today_reminders.push
+      ({
+          id: reminder.identifier,
+          name: reminder.title,
+          dd: reminder.dueDate
+      })
+    }
+  }
+  // sort reminders in ascending order
+  reminders_today.sort((a, b) => a.dd - b.dd)
+
+  addReminder(stack, today_reminders, 0)
+  addReminder(stack, today_reminders, 1)
+  addReminder(stack, today_reminders, 2)
+  addReminder(stack, today_reminders, 3)
+  addRemainder(stack, today_reminders, 4, "reminder")
 }
 
 function drawEvents(stack, events)
@@ -177,7 +217,7 @@ function drawEvents(stack, events)
   addAllDayEvent(stack, today_ades, 1)
   addEvent(stack, today_events, 0)
   addEvent(stack, today_events, 1)
-  addRemainder(stack, today_events, 2)
+  addRemainder(stack, today_events, 2, "event")
 }
 
 function drawHabits(stack)
