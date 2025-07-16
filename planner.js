@@ -240,9 +240,9 @@ async function buildMediumWidget()
 
   // create event and reminder stack
   addStack(stack_c, SIZE_STACK_P, COLOR_BG)
-  const stack_e = addStack(stack_c, SIZE_STACK_E, COLOR_ORANGE)
+  const stack_e = addStack(stack_c, SIZE_STACK_E, COLOR_BG)
   addStack(stack_c, SIZE_STACK_P, COLOR_BG)
-  const stack_r = addStack(stack_c, SIZE_STACK_R, COLOR_GRAY)
+  const stack_r = addStack(stack_c, SIZE_STACK_R, COLOR_BG)
   addStack(stack_c, SIZE_STACK_P, COLOR_BG)
 
   drawDates(stack_d)
