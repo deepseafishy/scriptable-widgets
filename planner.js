@@ -105,7 +105,7 @@ function addAllDayEvent(stack, events, idx)
   }
 }
 
-function addEvent(events, evnt)
+function pushEvent(events, evnt)
 {
   events.push
   ({
@@ -153,17 +153,17 @@ function drawEvents(stack, events)
   // find today's events
   let all_day_events_today = []
   let events_today = []
-  for (const e of events)
+  for (const evnt of events)
   {
-    const text_event_start = DF_TIME.string(e.startDate)
-    const text_event_end = DF_TIME.string(e.endDate)
-    const compare_start = text_event_start.localeCompare("00:00")
-    const compare_end = text_event_end.localeCompare("23:59")
+    const text_sevent = DF_TIME.string(evnt.startDate)
+    const text_eevent = DF_TIME.string(evnt.endDate)
+    const scompare = text_sevent.localeCompare("00:00")
+    const ecompare = text_eevent.localeCompare("23:59")
 
-    if (compare_start == 0 && compare_end == 0)
-      addEvent(all_day_events_today, e)
-    else if (e.startDate.getTime() > today.getTime())
-      addEvent(events_today, e)
+    if (scompare == 0 && ecompare == 0)
+      pushEvent(all_day_events_today, e)
+    else if (evnt.startDate.getTime() > today.getTime())
+      pushEvent(events_today, e)
   }
 
   stack.layoutVertically()
@@ -242,7 +242,7 @@ async function buildMediumWidget()
   addStack(stack_c, SIZE_STACK_P, COLOR_BG)
   const stack_e = addStack(stack_c, SIZE_STACK_E, COLOR_BG)
   addStack(stack_c, SIZE_STACK_P, COLOR_BG)
-  const stack_r = addStack(stack_c, SIZE_STACK_R, COLOR_BG)
+  const stack_r = addStack(stack_c, SIZE_STACK_R, COLOR_GRAY)
   addStack(stack_c, SIZE_STACK_P, COLOR_BG)
 
   drawDates(stack_d)
