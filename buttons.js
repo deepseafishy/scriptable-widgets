@@ -31,12 +31,12 @@ const apps = [
 
 function addImage(stack, size, name)
 {
-  const path = fm.joinPath(fm.documentsDirectory(), name + ".PNG")
+  const path = FM.joinPath(FM.documentsDirectory(), name + ".PNG")
   let img
 
-  if (fm.fileExists(path))
+  if (FM.fileExists(path))
   {
-    fm.downloadFileFromiCloud(path)
+    FM.downloadFileFromiCloud(path)
     img = stack.addImage(path)
     img.size = size
   }
@@ -63,16 +63,16 @@ function addIcon(stack, size, color, name, add_pad)
 
   if (size.width != 0 && size.height != 0)
   {
-    stack_child.size = size
-    stack_child.backgroundColor = color
-    stack_child.url = SHORTCUT + name
-    addImage(stack_child, SIZE_ICON, name)
+    stack_icon.size = size
+    stack_icon.backgroundColor = color
+    stack_icon.url = SHORTCUT + name
+    addImage(stack_icon, SIZE_ICON, name)
   }
 
-  return stack_child
+  return stack_icon
 }
 
-function addRowStack(stack, row_idx, add_pad)
+function addRowStack(stack, row, add_pad)
 {
   const size_pad = add_pad ? SIZE_ROW_PAD : SIZE_NULL
   const stack_row = addStack(stack, SIZE_ROW, COLOR_GRAY)
