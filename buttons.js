@@ -31,7 +31,7 @@ const apps = [
 
 function addImage(stack, size, name)
 {
-  const path = fm.joinPath(fm.documentsDirectory(), name + ".png")
+  const path = fm.joinPath(fm.documentsDirectory(), name + ".PNG")
   let img
 
   if (fm.fileExists(path))
