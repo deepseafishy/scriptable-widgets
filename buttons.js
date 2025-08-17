@@ -9,6 +9,7 @@ const SIZE_ROW          = new Size(320,  35)
 const SIZE_ICON         = new Size( 35,  35)
 const SIZE_COL_PAD      = new Size(  1,  35)
 const SIZE_ROW_PAD      = new Size( 35,   1)
+const SIZE_NULL         = new Size(  0,   0)
 
 // fonts
 // const FONT_DAY          = Font.regularMonospacedSystemFont(8)
@@ -45,17 +46,20 @@ function addStack(stack, size, color)
 {
   const stack_child = stack.addStack()
 
-  stack_child.size = size
-  stack_child.backgroundColor = color
+  if (size.width != 0 && size.height != 0)
+  {
+    stack_child.size = size
+    stack_child.backgroundColor = color
+  }
 
   return stack_child
 }
 
-function addRowStack(stack, add_pad)
+function addRowStack(stack, row_idx, add_pad)
 {
-  const stack_row = addStack(stack,     SIZE_ROW, COLOR_GRAY)
-  if (add_pad)
-    const stack_pad = addStack(stack, SIZE_ROW_PAD,   COLOR_BG)
+  const size_pad = add_pad ? SIZE_ROW_PAD : SIZE_NULL
+  const stack_row = addStack(stack, SIZE_ROW, COLOR_GRAY)
+  const stack_pad = addStack(stack, size_pad,   COLOR_BG)
 
   addStack(  stack_row,    SIZE_ICON, COLOR_WHITE)
   for (let c = 0; c < 8; c++)
@@ -72,7 +76,7 @@ async function buildLargeWidget()
 
   stack.layoutVertically()
   for (let i = 0; i < 9; i++)
-    addRowStack(stack, i < 8)
+    addRowStack(stack, i, i < 8)
 
   return widget
 }
