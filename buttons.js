@@ -34,14 +34,6 @@ function addText(stack, bg_color, content, font, color)
   text.textColor = color
 }
 
-function addLine(stack, size, color)
-{
-  const stack_child = stack.addStack()
-
-  stack_child.size = size
-  stack_child.backgroundColor = color
-}
-
 function addStack(stack, size, color)
 {
   const stack_child = stack.addStack()
@@ -55,24 +47,35 @@ function addStack(stack, size, color)
   return stack_child
 }
 
+function addIcon(stack, size, color, url)
+{
+  const stack_child = stack.addStack()
+
+  if (size.width != 0 && size.height != 0)
+  {
+    stack_child.size = size
+    stack_child.backgroundColor = color
+    stack_child.url = url
+  }
+
+  return stack_child
+}
+
 function addRowStack(stack, row_idx, add_pad)
 {
   const size_pad = add_pad ? SIZE_ROW_PAD : SIZE_NULL
   const stack_row = addStack(stack, SIZE_ROW, COLOR_GRAY)
   const stack_pad = addStack(stack, size_pad,   COLOR_BG)
-  let test
 
   addStack(  stack_row,    SIZE_ICON, COLOR_WHITE)
   for (let c = 0; c < 8; c++)
   {
     addStack(stack_row, SIZE_COL_PAD, COLOR_BG)
     if (row_idx == 8 && c == 0)
-      test = addStack(stack_row,    SIZE_ICON,  COLOR_GRAY)
+      addIcon( stack_row,    SIZE_ICON,  COLOR_GRAY, "shortcuts://run-shortcut?name=open_camera")
     else
       addStack(stack_row,    SIZE_ICON, COLOR_WHITE)
   }
-
-  test.url = "shortcuts://run-shortcut?name=open_camera"
 }
 
 async function buildLargeWidget()
