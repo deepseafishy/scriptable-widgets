@@ -51,17 +51,16 @@ function addStack(stack, size, color)
   return stack_child
 }
 
-function addRowStack(stack, size, color)
+function addRowStack(stack, add_pad)
 {
-  const stack_row = stack.addStack()
-
-  stack_row.size = size
-  stack_row.backgroundColor = color
+  const stack_row = addStack(stack,     SIZE_ROW, COLOR_GRAY)
+  if (add_pad)
+    const stack_pad = addStack(stack, SIZE_ROW_PAD,   COLOR_BG)
 
   addStack(  stack_row,    SIZE_ICON, COLOR_WHITE)
-  for (let i = 0; i < 8; i++)
+  for (let c = 0; c < 8; c++)
   {
-    addStack(stack_row, SIZE_ROW_PAD, COLOR_BG)
+    addStack(stack_row, SIZE_COL_PAD, COLOR_BG)
     addStack(stack_row,    SIZE_ICON, COLOR_WHITE)
   }
 }
@@ -73,7 +72,7 @@ async function buildLargeWidget()
 
   stack.layoutVertically()
   for (let i = 0; i < 9; i++)
-    addRowStack(stack, SIZE_ROW, COLOR_GRAY)
+    addRowStack(stack, i < 8)
 
   return widget
 }
