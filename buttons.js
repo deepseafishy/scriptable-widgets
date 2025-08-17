@@ -60,13 +60,19 @@ function addRowStack(stack, row_idx, add_pad)
   const size_pad = add_pad ? SIZE_ROW_PAD : SIZE_NULL
   const stack_row = addStack(stack, SIZE_ROW, COLOR_GRAY)
   const stack_pad = addStack(stack, size_pad,   COLOR_BG)
+  let test
 
   addStack(  stack_row,    SIZE_ICON, COLOR_WHITE)
   for (let c = 0; c < 8; c++)
   {
     addStack(stack_row, SIZE_COL_PAD, COLOR_BG)
-    addStack(stack_row,    SIZE_ICON, COLOR_WHITE)
+    if (row_idx == 8 && c == 0)
+      test = addStack(stack_row,    SIZE_ICON,  COLOR_GRAY)
+    else
+      addStack(stack_row,    SIZE_ICON, COLOR_WHITE)
   }
+
+  test.url = "shortcuts://run-shortcut?name=open_camera"
 }
 
 async function buildLargeWidget()
