@@ -1,18 +1,19 @@
 // colors
-const COLOR_BG          = new Color("242424", 1)
-const COLOR_WHITE       = new Color("FFFFFF", 1)
-const COLOR_GRAY        = new Color("808080", 1)
-
+const COLOR_BG      = new Color("242424", 1)
+const COLOR_WHITE   = new Color("FFFFFF", 1)
+const COLOR_GRAY    = new Color("808080", 1)
 // sizes
-// const SIZE_TOTAL     = new Size(320, 320)
-const SIZE_ROW          = new Size(320,  35)
-const SIZE_ICON         = new Size( 35,  35)
-const SIZE_COL_PAD      = new Size(  1,  35)
-const SIZE_ROW_PAD      = new Size( 35,   1)
-const SIZE_NULL         = new Size(  0,   0)
-
+// const SIZE_TOTAL = new Size(320, 320)
+const SIZE_ROW      = new Size(320,  35)
+const SIZE_ICON     = new Size( 35,  35)
+const SIZE_COL_PAD  = new Size(  1,  35)
+const SIZE_ROW_PAD  = new Size( 35,   1)
+const SIZE_NULL     = new Size(  0,   0)
 // fonts
-const FONT_TEXT         = Font.regularMonospacedSystemFont(3)
+const FONT_NAME     = Font.regularMonospacedSystemFont(20)
+// URLs
+const SHORTCUT      = "shortcuts://run-shortcut?name="
+const OC            = "open_camera"
 
 function addText(stack, bg_color, content, font, color)
 {
@@ -47,7 +48,12 @@ function addIcon(stack, size, color, name, url)
     stack_child.size = size
     stack_child.backgroundColor = color
     stack_child.url = url
-    addText(stack_child, color, name, FONT_NAME, COLOR_WHITE)
+
+    let fm = FileManager.local()
+    let path = fm.joinPath(fm.documentsDirectory(), "camera.png");
+    let image = fm.readImage(imagepath);
+    let icon = stack.addImage(image)
+    icon.size = SIZE_ICON
   }
 
   return stack_child
