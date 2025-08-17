@@ -49,9 +49,9 @@ function addIcon(stack, size, color, name, url)
     stack_child.backgroundColor = color
     stack_child.url = url
 
-    let fm = FileManager.local()
-    let path = fm.joinPath(fm.documentsDirectory(), "camera.png");
-    let image = fm.readImage(imagepath);
+    let fm = FileManager.iCloud()
+    let path = fm.joinPath(fm.documentsDirectory(), "/icons/camera");
+    let image = fm.readImage(path);
     let icon = stack.addImage(image)
     icon.size = SIZE_ICON
   }
@@ -70,7 +70,7 @@ function addRowStack(stack, row_idx, add_pad)
   {
     addStack(stack_row, SIZE_COL_PAD, COLOR_BG)
     if (row_idx == 8 && c == 0)
-      addIcon( stack_row,    SIZE_ICON,  COLOR_GRAY, "OC", "shortcuts://run-shortcut?name=open_camera")
+      addIcon( stack_row,    SIZE_ICON,  COLOR_GRAY, "OC", SHORTCUT + OC)
     else
       addStack(stack_row,    SIZE_ICON, COLOR_WHITE)
   }
