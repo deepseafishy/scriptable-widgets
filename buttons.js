@@ -1,3 +1,5 @@
+// file manage
+const FM            = FileManager.iCloud()
 // colors
 const COLOR_BG      = new Color("242424", 1)
 const COLOR_WHITE   = new Color("FFFFFF", 1)
@@ -9,21 +11,35 @@ const SIZE_ICON     = new Size( 35,  35)
 const SIZE_COL_PAD  = new Size(  1,  35)
 const SIZE_ROW_PAD  = new Size( 35,   1)
 const SIZE_NULL     = new Size(  0,   0)
-// fonts
-const FONT_NAME     = Font.regularMonospacedSystemFont(20)
-// URLs
+// dimensions
+const N_ROWS = 9
+const N_COLS = 9
+// shortcut URL
 const SHORTCUT      = "shortcuts://run-shortcut?name="
-const OC            = "open_camera"
+// applications
+const apps = [
+  ["imessage", "kakaotalk", "slack", "mail", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", ""],
+]
 
-function addText(stack, bg_color, content, font, color)
+function addImage(stack, size, name)
 {
-  const text = stack.addText(content)
+  const path = fm.joinPath(fm.documentsDirectory(), name + ".png")
+  let img
 
-  stack.centerAlignContent()
-  stack.backgroundColor = bg_color
-  text.centerAlignText()
-  text.font = font
-  text.textColor = color
+  if (fm.fileExists(path))
+  {
+    fm.downloadFileFromiCloud(path)
+    img = stack.addImage(path)
+    img.size = size
+  }
 }
 
 function addStack(stack, size, color)
@@ -39,21 +55,18 @@ function addStack(stack, size, color)
   return stack_child
 }
 
-function addIcon(stack, size, color, name, url)
+function addIcon(stack, size, color, name, add_pad)
 {
-  const stack_child = stack.addStack()
+  const size_pad = add_pad ? SIZE_COL_PAD : SIZE_NULL
+  const stack_icon = stack.addStack()
+  const stack_pad = addStack(stack, size_pad, COLOR_BG)
 
   if (size.width != 0 && size.height != 0)
   {
     stack_child.size = size
     stack_child.backgroundColor = color
-    stack_child.url = url
-
-    let fm = FileManager.iCloud()
-    let path = fm.joinPath(fm.documentsDirectory(), "/icons/camera");
-    let image = fm.readImage(path);
-    let icon = stack.addImage(image)
-    icon.size = SIZE_ICON
+    stack_child.url = SHORTCUT + name
+    addImage(stack_child, SIZE_ICON, name)
   }
 
   return stack_child
@@ -65,15 +78,8 @@ function addRowStack(stack, row_idx, add_pad)
   const stack_row = addStack(stack, SIZE_ROW, COLOR_GRAY)
   const stack_pad = addStack(stack, size_pad,   COLOR_BG)
 
-  addStack(  stack_row,    SIZE_ICON, COLOR_WHITE)
-  for (let c = 0; c < 8; c++)
-  {
-    addStack(stack_row, SIZE_COL_PAD, COLOR_BG)
-    if (row_idx == 8 && c == 0)
-      addIcon( stack_row,    SIZE_ICON,  COLOR_GRAY, "OC", SHORTCUT + OC)
-    else
-      addStack(stack_row,    SIZE_ICON, COLOR_WHITE)
-  }
+  for (let col = 0; col < N_COLS; col++)
+    addIcon(stack_row, SIZE_ICON, COLOR_BG, apps[row][col], col < N_COLS - 1)
 }
 
 async function buildLargeWidget()
@@ -82,8 +88,8 @@ async function buildLargeWidget()
   const stack = widget.addStack()
 
   stack.layoutVertically()
-  for (let i = 0; i < 9; i++)
-    addRowStack(stack, i, i < 8)
+  for (let i = 0; i < N_ROWS; i++)
+    addRowStack(stack, i, i < N_ROWS - 1)
 
   return widget
 }
