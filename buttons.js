@@ -3,7 +3,7 @@ const COLOR_BG          = new Color("242424", 1)
 const COLOR_WHITE       = new Color("FFFFFF", 1)
 const COLOR_GRAY        = new Color("808080", 1)
 
-// major stack sizes
+// sizes
 // const SIZE_TOTAL     = new Size(320, 320)
 const SIZE_ROW          = new Size(320,  35)
 const SIZE_ICON         = new Size( 35,  35)
@@ -12,16 +12,7 @@ const SIZE_ROW_PAD      = new Size( 35,   1)
 const SIZE_NULL         = new Size(  0,   0)
 
 // fonts
-// const FONT_DAY          = Font.regularMonospacedSystemFont(8)
-// const FONT_DATE         = Font.mediumSystemFont(18)
-// const FONT_ALERT        = Font.mediumSystemFont(8)
-// const FONT_BDAY         = Font.semiboldMonospacedSystemFont(11)
-// const FONT_BDATE        = Font.semiboldSystemFont(28)
-// const FONT_ADE          = Font.boldMonospacedSystemFont(12)
-// const FONT_ENAME        = Font.semiboldMonospacedSystemFont(13)
-// const FONT_ETIME        = Font.regularMonospacedSystemFont(10)
-// const FONT_RNAME        = Font.semiboldMonospacedSystemFont(14)
-// const FONT_REMAINDER    = Font.mediumMonospacedSystemFont(12)
+const FONT_TEXT         = Font.regularMonospacedSystemFont(3)
 
 function addText(stack, bg_color, content, font, color)
 {
@@ -47,7 +38,7 @@ function addStack(stack, size, color)
   return stack_child
 }
 
-function addIcon(stack, size, color, url)
+function addIcon(stack, size, color, name, url)
 {
   const stack_child = stack.addStack()
 
@@ -56,6 +47,7 @@ function addIcon(stack, size, color, url)
     stack_child.size = size
     stack_child.backgroundColor = color
     stack_child.url = url
+    addText(stack_child, color, name, FONT_NAME, COLOR_WHITE)
   }
 
   return stack_child
@@ -72,7 +64,7 @@ function addRowStack(stack, row_idx, add_pad)
   {
     addStack(stack_row, SIZE_COL_PAD, COLOR_BG)
     if (row_idx == 8 && c == 0)
-      addIcon( stack_row,    SIZE_ICON,  COLOR_GRAY, "shortcuts://run-shortcut?name=open_camera")
+      addIcon( stack_row,    SIZE_ICON,  COLOR_GRAY, "OC", "shortcuts://run-shortcut?name=open_camera")
     else
       addStack(stack_row,    SIZE_ICON, COLOR_WHITE)
   }
