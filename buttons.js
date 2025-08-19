@@ -19,16 +19,16 @@ const SHORTCUT      = "shortcuts://run-shortcut?name="
 // applications
 const apps          =
 [
-  ["calendar", "reminders", "notes", "blink", "", "", "", "", ""],
-  ["github", "snu", "authenticator", "pass", "naver", "google", ""],
-  ["woori_bank", "kakao_pay", "naver_pay", "payco", "bank_salad", "", "", "", ""],
-  ["series", "webtoon", "youtube", "steam", "", "", "", "", ""],
-  ["naver_map", "kakao_map", "kakao_bus", "", "", "", "", "", ""],
-  ["baemin", "subway", "nol", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", ""],
-  ["camera", "photos", "calculator", "voice_memo", "shazaam", "app_store", "", "", ""],
+  [  "calendar", "reminders",         "notes",      "blink",           "",          "", "", "", ""],
+  [    "github",       "snu", "authenticator",       "pass",      "naver",    "google", "", "", ""],
+  ["woori_bank", "kakao_pay",     "naver_pay",      "payco", "bank_salad",          "", "", "", ""],
+  [    "series",   "webtoon",       "youtube",      "steam",           "",          "", "", "", ""],
+  [ "naver_map", "kakao_map",     "kakao_bus",           "",           "",          "", "", "", ""],
+  [    "baemin",    "subway",           "nol",           "",           "",          "", "", "", ""],
+  [          "",          "",              "",           "",           "",          "", "", "", ""],
+  [          "",          "",              "",           "",           "",          "", "", "", ""],
+  [          "",          "",              "",           "",           "",          "", "", "", ""],
+  [    "camera",    "photos",    "calculator", "voice_memo",    "shazaam", "app_store", "", "", ""],
 ]
 
 function addImage(stack, size, name)
@@ -42,9 +42,9 @@ function addImage(stack, size, name)
     img = stack.addImage(path)
     img.size = size
   }
-  else
+  else if (name != "")
   {
-    stack.addText("test")
+    stack.addText(name)
   }
 }
 
