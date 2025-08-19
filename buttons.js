@@ -42,6 +42,10 @@ function addImage(stack, size, name)
     img = stack.addImage(path)
     img.size = size
   }
+  else
+  {
+    stack.addText("test")
+  }
 }
 
 function addStack(stack, size, color)
