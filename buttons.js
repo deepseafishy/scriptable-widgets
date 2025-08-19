@@ -17,16 +17,17 @@ const N_COLS = 9
 // shortcut URL
 const SHORTCUT      = "shortcuts://run-shortcut?name="
 // applications
-const apps = [
-  ["imessage", "kakaotalk", "slack", "mail", "", "", "", "", ""],
+const apps          =
+[
+  ["calendar", "reminders", "notes", "blink", "", "", "", "", ""],
+  ["github", "snu", "authenticator", "pass", "naver", "google", ""],
+  ["woori_bank", "kakao_pay", "naver_pay", "", "", "", "", "", ""],
+  ["series", "webtoon", "youtube", "steam", "", "", "", "", ""],
+  ["naver_map", "kakao_map", "baemin", "subway", "nol", "", "", "", ""],
   ["", "", "", "", "", "", "", "", ""],
   ["", "", "", "", "", "", "", "", ""],
   ["", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", ""],
+  ["camera", "photos", "calculator", "voice_memo", "shazaam", "app_store", "", "", ""],
 ]
 
 function addImage(stack, size, name)
@@ -82,7 +83,7 @@ function addRowStack(stack, row, add_pad)
     addIcon(stack_row, SIZE_ICON, COLOR_BG, apps[row][col], col < N_COLS - 1)
 }
 
-async function buildLargeWidget()
+async function buildMediumWidget()
 {
   const widget = new ListWidget()
   const stack = widget.addStack()
@@ -94,7 +95,7 @@ async function buildLargeWidget()
   return widget
 }
 
-const widget = await buildLargeWidget()
+const widget = await buildMediumWidget()
 widget.backgroundColor = COLOR_BG
 Script.setWidget(widget)
 Script.complete()
