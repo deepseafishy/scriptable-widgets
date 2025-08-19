@@ -21,9 +21,10 @@ const apps          =
 [
   ["calendar", "reminders", "notes", "blink", "", "", "", "", ""],
   ["github", "snu", "authenticator", "pass", "naver", "google", ""],
-  ["woori_bank", "kakao_pay", "naver_pay", "", "", "", "", "", ""],
+  ["woori_bank", "kakao_pay", "naver_pay", "payco", "bank_salad", "", "", "", ""],
   ["series", "webtoon", "youtube", "steam", "", "", "", "", ""],
-  ["naver_map", "kakao_map", "baemin", "subway", "nol", "", "", "", ""],
+  ["naver_map", "kakao_map", "kakao_bus", "", "", "", "", "", ""],
+  ["baemin", "subway", "nol", "", "", "", "", "", ""],
   ["", "", "", "", "", "", "", "", ""],
   ["", "", "", "", "", "", "", "", ""],
   ["", "", "", "", "", "", "", "", ""],
