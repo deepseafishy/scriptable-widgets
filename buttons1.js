@@ -5,41 +5,35 @@ const COLOR_BG      = new Color("242424", 1)
 const COLOR_WHITE   = new Color("FFFFFF", 1)
 const COLOR_GRAY    = new Color("808080", 1)
 // sizes
-// const SIZE_TOTAL = new Size(320, 320)
-const SIZE_ROW      = new Size(320,  35)
-const SIZE_ICON     = new Size( 35,  35)
-const SIZE_COL_PAD  = new Size(  1,  35)
-const SIZE_ROW_PAD  = new Size( 35,   1)
-const SIZE_NULL     = new Size(  0,   0)
+// const SIZE_MED  = new Size(320, 160)
+const SIZE_ROW     = new Size(320,  50)
+const SIZE_ICON    = new Size( 50,  50)
+const SIZE_COL_PAD = new Size(  1,  50)
+const SIZE_ROW_PAD = new Size( 50,   1)
+const SIZE_NULL    = new Size(  0,   0)
 // dimensions
-const N_ROWS = 9
-const N_COLS = 9
+const N_ROWS = 3
+const N_COLS = 6
 // shortcut URL
 const SHORTCUT      = "shortcuts://run-shortcut?name="
 // applications
 const apps          =
 [
-  [  "calendar", "reminders",         "notes",      "blink",           "",          "", "", "", ""],
-  [    "github",       "snu", "authenticator",       "pass",      "naver",    "google", "", "", ""],
-  ["woori_bank", "kakao_pay",     "naver_pay",      "payco", "bank_salad",          "", "", "", ""],
-  [    "series",   "webtoon",       "youtube",      "steam",           "",          "", "", "", ""],
-  [ "naver_map", "kakao_map",     "kakao_bus",           "",           "",          "", "", "", ""],
-  [    "baemin",    "subway",           "nol",           "",           "",          "", "", "", ""],
-  [          "",          "",              "",           "",           "",          "", "", "", ""],
-  [          "",          "",              "",           "",           "",          "", "", "", ""],
-  [    "camera",    "photos",    "calculator", "voice_memo",    "shazaam", "app_store", "", "", ""],
+  [    "series",   "webtoon",    "youtube",      "steam",        "",          "", "", "", ""],
+  [ "naver_map", "kakao_map",  "kakao_bus",     "baemin",  "subway",       "nol", "", "", ""],
+  [    "camera",    "photos", "calculator", "voice_memo", "shazaam", "app_store", "", "", ""],
 ]
 
 function addImage(stack, size, name)
 {
   const path = FM.joinPath(FM.documentsDirectory(), name + ".PNG")
-  let img
 
   if (FM.fileExists(path))
   {
     FM.downloadFileFromiCloud(path)
-    img = stack.addImage(path)
-    img.size = size
+    const img = FM.readImage(path)
+    const stack_img = stack.addImage(img)
+    stack_img.size = size
   }
   else if (name != "")
   {
