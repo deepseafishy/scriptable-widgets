@@ -236,9 +236,7 @@ function drawHabits(stack, reminders)
     let today_reminders = []
     for (const reminder of reminders)
       if (
-        reminder.name == "Exercise" &&
-        reminder.isCompleted &&
-        reminder.dueDate != null &&
+        reminder.title == "Exercise" &&
         reminder.dueDate.getDate() == date.getDate() &&
         reminder.dueDate.getMonth() == date.getMonth() &&
         reminder.dueDate.getFullYear() == date.getFullYear()
