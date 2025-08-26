@@ -226,7 +226,7 @@ function drawEvents(stack, events)
 
 function drawHabits(stack)
 {
-  for (let i = 0; i < 31; ++i)
+  for (let i = 0; i < 28; ++i)
   {
     const stack_block = addStack(stack, SIZE_STACK_HB, COLOR_BG)
 
@@ -250,7 +250,6 @@ function drawDates(stack, events, reminders)
         reminder.dueDate.getFullYear() == date.getFullYear()
       )
         today_reminders.push({ id: reminder.identifier })
-    let tr_size = today_reminders.size()
 
     // create day, date, and alert stack
     stack_block.layoutVertically()
@@ -268,9 +267,9 @@ function drawDates(stack, events, reminders)
       const stack_date  = addStack(stack_block,  SIZE_STACK_DATE, COLOR_BG)
       const stack_alert = addStack(stack_block, SIZE_STACK_ALERT, COLOR_BG)
 
-      addText(  stack_day, COLOR_BG,  DF_DAY.string(date),   FONT_DAY, COLOR_WHITE)
-      addText( stack_date, COLOR_BG, DF_DATE.string(date),  FONT_DATE, COLOR_WHITE)
-      addText(stack_alert, COLOR_BG,        "+" + tr_size, FONT_ALERT, COLOR_WHITE)
+      addText(  stack_day, COLOR_BG,          DF_DAY.string(date),   FONT_DAY, COLOR_WHITE)
+      addText( stack_date, COLOR_BG,         DF_DATE.string(date),  FONT_DATE, COLOR_WHITE)
+      addText(stack_alert, COLOR_BG, "+" + today_reminders.length, FONT_ALERT, COLOR_WHITE)
     }
   }
 }
