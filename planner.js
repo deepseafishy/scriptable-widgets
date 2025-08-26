@@ -224,13 +224,29 @@ function drawEvents(stack, events)
   addRemainder(stack, today_events, 2, "event")
 }
 
-function drawHabits(stack)
+function drawHabits(stack, reminders)
 {
   for (let i = 0; i < 28; ++i)
   {
+    const date = new Date(new Date().getTime() - i * 24 * 60 * 60 * 1000)
     const stack_block = addStack(stack, SIZE_STACK_HB, COLOR_BG)
+    let exercise_complete = false
 
-    drawDot(stack_block, /*dot_resolution*/ 50, SIZE_ACTUAL_DOT, COLOR_WHITE)
+    // check if a reminder was completed
+    let today_reminders = []
+    for (const reminder of reminders)
+      if (
+        reminder.name == "Exercise" &&
+        reminder.isCompleted &&
+        reminder.dueDate != null &&
+        reminder.dueDate.getDate() == date.getDate() &&
+        reminder.dueDate.getMonth() == date.getMonth() &&
+        reminder.dueDate.getFullYear() == date.getFullYear()
+      )
+        exercise_complete = true
+
+    if (exercise_complete)
+      drawDot(stack_block, /*dot_resolution*/ 50, SIZE_ACTUAL_DOT, COLOR_WHITE)
   }
 }
 
@@ -241,6 +257,7 @@ function drawDates(stack, events, reminders)
     const date = new Date(new Date().getTime() + i * 24 * 60 * 60 * 1000)
     const stack_block = addStack(stack, SIZE_STACK_DB, COLOR_BG)
 
+    // calculate number of reminders in a specific date
     let today_reminders = []
     for (const reminder of reminders)
       if (
@@ -297,7 +314,7 @@ async function buildMediumWidget()
   addStack(stack_c, SIZE_STACK_P, COLOR_BG)
 
   drawDates(stack_d, events, reminders)
-  drawHabits(stack_h)
+  drawHabits(stack_h, reminders)
   drawEvents(stack_e, events)
   drawReminders(stack_r, reminders)
 
