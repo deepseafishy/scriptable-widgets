@@ -2,6 +2,7 @@
 const COLOR_BG          = new Color("242424", 1)
 const COLOR_WHITE       = new Color("FFFFFF", 1)
 const COLOR_GRAY        = new Color("808080", 1)
+const COLOR_BLUE        = new Color("0000FF", 1)
 
 // major stack sizes
 // const SIZE_TOTAL     = new Size(320, 160)
@@ -233,12 +234,23 @@ function drawHabits(stack)
   }
 }
 
-function drawDates(stack)
+function drawDates(stack, events, reminders)
 {
   for (let i = 0; i < 7; ++i)
   {
     const date = new Date(new Date().getTime() + i * 24 * 60 * 60 * 1000)
     const stack_block = addStack(stack, SIZE_STACK_DB, COLOR_BG)
+
+    let today_reminders = []
+    for (const reminder of reminders)
+      if (
+        !reminder.isCompleted && reminder.dueDate != null &&
+        reminder.dueDate.getDate() == date.getDate() &&
+        reminder.dueDate.getMonth() == date.getMonth() &&
+        reminder.dueDate.getFullYear() == date.getFullYear()
+      )
+        today_reminders.push({ id: reminder.identifier })
+    let tr_size = today_reminders.size()
 
     // create day, date, and alert stack
     stack_block.layoutVertically()
@@ -258,7 +270,7 @@ function drawDates(stack)
 
       addText(  stack_day, COLOR_BG,  DF_DAY.string(date),   FONT_DAY, COLOR_WHITE)
       addText( stack_date, COLOR_BG, DF_DATE.string(date),  FONT_DATE, COLOR_WHITE)
-      addText(stack_alert, COLOR_BG,                "+11", FONT_ALERT, COLOR_WHITE)
+      addText(stack_alert, COLOR_BG,        "+" + tr_size, FONT_ALERT, COLOR_WHITE)
     }
   }
 }
@@ -285,7 +297,7 @@ async function buildMediumWidget()
   const stack_r = addStack(stack_c, SIZE_STACK_R, COLOR_GRAY)
   addStack(stack_c, SIZE_STACK_P, COLOR_BG)
 
-  drawDates(stack_d)
+  drawDates(stack_d, events, reminders)
   drawHabits(stack_h)
   drawEvents(stack_e, events)
   drawReminders(stack_r, reminders)
@@ -295,6 +307,5 @@ async function buildMediumWidget()
 
 const widget = await buildMediumWidget()
 widget.backgroundColor = COLOR_BG
-widget.url = "calshow://"
 Script.setWidget(widget)
 Script.complete()
