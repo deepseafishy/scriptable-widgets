@@ -74,8 +74,8 @@ function addIcon(stack, size, color, name, add_pad)
 function addRowStack(stack, row, add_pad)
 {
   const size_pad = add_pad ? SIZE_ROW_PAD : SIZE_NULL
-  const stack_row = addStack(stack, SIZE_ROW, COLOR_GRAY)
-  const stack_pad = addStack(stack, size_pad,   COLOR_BG)
+  const stack_row = addStack(stack, SIZE_ROW, COLOR_BG)
+  const stack_pad = addStack(stack, size_pad, COLOR_BG)
 
   for (let col = 0; col < N_COLS; col++)
     addIcon(stack_row, SIZE_ICON, COLOR_BG, apps[row][col], col < N_COLS - 1)
