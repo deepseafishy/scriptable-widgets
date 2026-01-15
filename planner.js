@@ -7,14 +7,14 @@ const COLOR_BLUE        = new Color("0000FF", 1)
 // major stack sizes
 // const SIZE_TOTAL     = new Size(320, 160)
 const SIZE_STACK_D      = new Size(320,  38)
-const SIZE_STACK_H      = new Size(320,  10)
-const SIZE_STACK_L      = new Size(320,   2)
-const SIZE_STACK_C      = new Size(320, 110)
-const SIZE_STACK_E      = new Size(145, 110)
-const SIZE_STACK_R      = new Size(145, 110)
-const SIZE_STACK_P      = new Size( 10, 110)
+const SIZE_STACK_L      = new Size(320,  10)
+const SIZE_STACK_C      = new Size(320, 220)
+const SIZE_STACK_E      = new Size(145, 220)
+const SIZE_STACK_R      = new Size(145, 220)
+const SIZE_STACK_P      = new Size( 10, 220)
 const SIZE_STACK_PAD    = new Size(145,   5)
 const SIZE_STACK_RS     = new Size(145,  11)
+const SIZE_STACK_H      = new Size(320,  50)
 
 // date stack sizes
 const SIZE_STACK_DB     = new Size( 40,  38)
@@ -270,26 +270,26 @@ function drawDates(stack, events, reminders)
     stack_block.layoutVertically()
     if (i == 0)
     {
-      const stack_day   = addStack(stack_block,  SIZE_STACK_BDAY, COLOR_BG)
-      const stack_date  = addStack(stack_block, SIZE_STACK_BDATE, COLOR_BG)
+      const stack_day   = addStack(stack_block,  SIZE_STACK_BDAY, COLOR_WHITE)
+      const stack_date  = addStack(stack_block, SIZE_STACK_BDATE, COLOR_WHITE)
 
-      addText(  stack_day, COLOR_BG,  DF_DAY.string(date),  FONT_BDAY, COLOR_WHITE)
-      addText( stack_date, COLOR_BG, DF_DATE.string(date), FONT_BDATE, COLOR_WHITE)
+      addText(  stack_day, COLOR_WHITE,  DF_DAY.string(date),  FONT_BDAY, COLOR_BG)
+      addText( stack_date, COLOR_WHITE, DF_DATE.string(date), FONT_BDATE, COLOR_BG)
     }
     else
     {
-      const stack_day   = addStack(stack_block,   SIZE_STACK_DAY, COLOR_BG)
-      const stack_date  = addStack(stack_block,  SIZE_STACK_DATE, COLOR_BG)
-      const stack_alert = addStack(stack_block, SIZE_STACK_ALERT, COLOR_BG)
+      const stack_day   = addStack(stack_block,   SIZE_STACK_DAY, COLOR_WHITE)
+      const stack_date  = addStack(stack_block,  SIZE_STACK_DATE, COLOR_WHITE)
+      const stack_alert = addStack(stack_block, SIZE_STACK_ALERT, COLOR_WHITE)
 
-      addText(  stack_day, COLOR_BG,          DF_DAY.string(date),   FONT_DAY, COLOR_WHITE)
-      addText( stack_date, COLOR_BG,         DF_DATE.string(date),  FONT_DATE, COLOR_WHITE)
-      addText(stack_alert, COLOR_BG, "+" + today_reminders.length, FONT_ALERT, COLOR_WHITE)
+      addText(  stack_day, COLOR_WHITE,          DF_DAY.string(date),   FONT_DAY, COLOR_BG)
+      addText( stack_date, COLOR_WHITE,         DF_DATE.string(date),  FONT_DATE, COLOR_BG)
+      addText(stack_alert, COLOR_WHITE, "+" + today_reminders.length, FONT_ALERT, COLOR_BG)
     }
   }
 }
 
-async function buildMediumWidget()
+async function buildLargeWidget()
 {
   const widget = new ListWidget()
   const stack = widget.addStack()
@@ -298,28 +298,28 @@ async function buildMediumWidget()
   const today = new Date()
 
   stack.layoutVertically()
-  // create date, habit, line, and content stack
-  const stack_d = addStack(  stack, SIZE_STACK_D, COLOR_BG)
-  const stack_h = addStack(  stack, SIZE_STACK_H, COLOR_BG)
+  const stack_d = addStack(stack, SIZE_STACK_D, COLOR_WHITE) // date stack
   addLine(stack, SIZE_STACK_L, COLOR_WHITE)
-  const stack_c = addStack(  stack, SIZE_STACK_C, COLOR_BG)
+  const stack_c = addStack(stack, SIZE_STACK_C, COLOR_WHITE) // content (event + reminder) stack
+  addLine(stack, SIZE_STACK_L, COLOR_WHITE)
+  const stack_h = addStack(stack, SIZE_STACK_H, COLOR_WHITE) // habit stack
 
-  // create event and reminder stack
-  addStack(stack_c, SIZE_STACK_P, COLOR_BG)
+  // create event and reminder stack within content stack
+  addStack(stack_c, SIZE_STACK_P, COLOR_WHITE)
   const stack_e = addStack(stack_c, SIZE_STACK_E, COLOR_BG)
-  addStack(stack_c, SIZE_STACK_P, COLOR_BG)
+  addStack(stack_c, SIZE_STACK_P, COLOR_WHITE)
   const stack_r = addStack(stack_c, SIZE_STACK_R, COLOR_GRAY)
-  addStack(stack_c, SIZE_STACK_P, COLOR_BG)
+  addStack(stack_c, SIZE_STACK_P, COLOR_WHITE)
 
-  drawDates(stack_d, events, reminders)
-  drawHabits(stack_h, reminders)
-  drawEvents(stack_e, events)
-  drawReminders(stack_r, reminders)
+  drawDates(stack_h, events, reminders)
+//  drawEvents(stack_e, events)
+//  drawReminders(stack_r, reminders)
+//  drawHabits(stack_h, reminders)
 
   return widget
 }
 
-const widget = await buildMediumWidget()
+const widget = await buildLargeWidget()
 widget.backgroundColor = COLOR_BG
 Script.setWidget(widget)
 Script.complete()
