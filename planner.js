@@ -15,6 +15,7 @@ const SIZE_STACK_P      = new Size( 10, 220)
 const SIZE_STACK_PAD    = new Size(145,   5)
 const SIZE_STACK_RS     = new Size(145,  11)
 const SIZE_STACK_H      = new Size(320,  50)
+const SIZE_STACK_HC     = new Size(320,  10)
 
 // date stack sizes
 const SIZE_STACK_DB     = new Size( 40,  38)
@@ -23,11 +24,6 @@ const SIZE_STACK_DATE   = new Size( 40,  18)
 const SIZE_STACK_ALERT  = new Size( 40,  10)
 const SIZE_STACK_BDAY   = new Size( 40,  15)
 const SIZE_STACK_BDATE  = new Size( 40,  25)
-
-// habit stack sizes
-const SIZE_STACK_HB     = new Size( 10,  10)
-const SIZE_DOT          = 50
-const SIZE_ACTUAL_DOT   = new Size(  4,   4)
 
 // event stack sizes
 const SIZE_STACK_ADE    = new Size(145,  14)
@@ -38,6 +34,11 @@ const SIZE_STACK_ENAME  = new Size( 95,  24)
 
 // reminder stack sizes
 const SIZE_STACK_RNAME  = new Size(145, 18)
+
+// habit stack sizes
+const SIZE_STACK_HB     = new Size( 10,  10)
+const SIZE_DOT          = 50
+const SIZE_ACTUAL_DOT   = new Size(  4,   4)
 
 // fonts
 const FONT_DAY          = Font.regularMonospacedSystemFont(8)
@@ -163,6 +164,37 @@ function addStack(stack, size, color)
   return stack_child
 }
 
+function drawHabits(stack, reminders)
+{
+  stack.layoutVertically()
+  const stack_s = addStack(stack, SIZE_STACK_HC, COLOR_BG)   // supplements
+  const stack_e = addStack(stack, SIZE_STACK_HC, COLOR_BLUE) // excercise
+  const stack_i = addStack(stack, SIZE_STACK_HC, COLOR_BG)   // self improvements
+  const stack_l = addStack(stack, SIZE_STACK_HC, COLOR_BLUE) // ledger
+  const stack_c = addStack(stack, SIZE_STACK_HC, COLOR_BG)   // cool downs
+
+//  for (let i = 0; i < 28; ++i)
+//  {
+//    const date = new Date(new Date().getTime() - i * 24 * 60 * 60 * 1000)
+//    const stack_block = addStack(stack, SIZE_STACK_HB, COLOR_BG)
+//    let exercise_complete = false
+//
+//    // check if a reminder was completed
+//    let today_reminders = []
+//    for (const reminder of reminders)
+//      if (
+//        reminder.title == "Exercise" &&
+//        reminder.dueDate.getDate() == date.getDate() &&
+//        reminder.dueDate.getMonth() == date.getMonth() &&
+//        reminder.dueDate.getFullYear() == date.getFullYear()
+//      )
+//        exercise_complete = true
+//
+//    if (exercise_complete)
+//      drawDot(stack_block, /*dot_resolution*/ 50, SIZE_ACTUAL_DOT, COLOR_WHITE)
+//  }
+}
+
 function drawReminders(stack, reminders)
 {
   // find today's reminders
@@ -222,30 +254,6 @@ function drawEvents(stack, events)
   addEvent(stack, today_events, 0)
   addEvent(stack, today_events, 1)
   addRemainder(stack, today_events, 2, "event")
-}
-
-function drawHabits(stack, reminders)
-{
-  for (let i = 0; i < 28; ++i)
-  {
-    const date = new Date(new Date().getTime() - i * 24 * 60 * 60 * 1000)
-    const stack_block = addStack(stack, SIZE_STACK_HB, COLOR_BG)
-    let exercise_complete = false
-
-    // check if a reminder was completed
-    let today_reminders = []
-    for (const reminder of reminders)
-      if (
-        reminder.title == "Exercise" &&
-        reminder.dueDate.getDate() == date.getDate() &&
-        reminder.dueDate.getMonth() == date.getMonth() &&
-        reminder.dueDate.getFullYear() == date.getFullYear()
-      )
-        exercise_complete = true
-
-    if (exercise_complete)
-      drawDot(stack_block, /*dot_resolution*/ 50, SIZE_ACTUAL_DOT, COLOR_WHITE)
-  }
 }
 
 function drawDates(stack, events, reminders)
@@ -308,13 +316,13 @@ async function buildLargeWidget()
   addStack(stack_c, SIZE_STACK_P, COLOR_WHITE)
   const stack_e = addStack(stack_c, SIZE_STACK_E, COLOR_BG)
   addStack(stack_c, SIZE_STACK_P, COLOR_WHITE)
-  const stack_r = addStack(stack_c, SIZE_STACK_R, COLOR_GRAY)
+  const stack_r = addStack(stack_c, SIZE_STACK_R, COLOR_BG)
   addStack(stack_c, SIZE_STACK_P, COLOR_WHITE)
 
   drawDates(stack_d, events, reminders)
 //  drawEvents(stack_e, events)
 //  drawReminders(stack_r, reminders)
-//  drawHabits(stack_h, reminders)
+  drawHabits(stack_h, reminders)
 
   return widget
 }
