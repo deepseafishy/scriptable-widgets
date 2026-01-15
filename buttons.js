@@ -58,7 +58,7 @@ function addIcon(stack, size, color, name, add_pad)
 {
   const size_pad = add_pad ? SIZE_COL_PAD : SIZE_NULL
   const stack_icon = stack.addStack()
-  const stack_pad = addStack(stack, size_pad, COLOR_BG)
+  const stack_pad = addStack(stack, size_pad, COLOR_WHITE)
 
   if (size.width != 0 && size.height != 0)
   {
@@ -74,11 +74,11 @@ function addIcon(stack, size, color, name, add_pad)
 function addRowStack(stack, row, add_pad)
 {
   const size_pad = add_pad ? SIZE_ROW_PAD : SIZE_NULL
-  const stack_row = addStack(stack, SIZE_ROW, COLOR_BG)
-  const stack_pad = addStack(stack, size_pad, COLOR_BG)
+  const stack_row = addStack(stack, SIZE_ROW, COLOR_WHITE)
+  const stack_pad = addStack(stack, size_pad, COLOR_WHITE)
 
   for (let col = 0; col < N_COLS; col++)
-    addIcon(stack_row, SIZE_ICON, COLOR_BG, apps[row][col], col < N_COLS - 1)
+    addIcon(stack_row, SIZE_ICON, COLOR_WHITE, apps[row][col], col < N_COLS - 1)
 }
 
 async function buildMediumWidget()
@@ -94,6 +94,6 @@ async function buildMediumWidget()
 }
 
 const widget = await buildMediumWidget()
-widget.backgroundColor = COLOR_BG
+widget.backgroundColor = COLOR_WHITE
 Script.setWidget(widget)
 Script.complete()
