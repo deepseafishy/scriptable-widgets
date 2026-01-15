@@ -311,7 +311,7 @@ async function buildLargeWidget()
   const stack_r = addStack(stack_c, SIZE_STACK_R, COLOR_GRAY)
   addStack(stack_c, SIZE_STACK_P, COLOR_WHITE)
 
-  drawDates(stack_h, events, reminders)
+  drawDates(stack_d, events, reminders)
 //  drawEvents(stack_e, events)
 //  drawReminders(stack_r, reminders)
 //  drawHabits(stack_h, reminders)
@@ -320,6 +320,6 @@ async function buildLargeWidget()
 }
 
 const widget = await buildLargeWidget()
-widget.backgroundColor = COLOR_BG
+widget.backgroundColor = COLOR_WHITE
 Script.setWidget(widget)
 Script.complete()

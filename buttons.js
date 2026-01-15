@@ -19,9 +19,9 @@ const SHORTCUT      = "shortcuts://run-shortcut?name="
 // applications
 const apps          =
 [
-  [     "notes", "woori_bank",     "payco", "bank_salad",       "snu", "google"],
-  [    "series",    "webtoon",          "",           "",          "",       ""],
-  [    "camera",     "photos", "app_store",  "naver_map", "kakao_bus",       ""],
+  [ "notes", "woori_bank",     "payco", "bank_salad", "snu", "google"],
+  ["camera",     "photos", "naver_map",  "kakao_bus",    "",       ""],
+  ["series",    "webtoon", "app_store",           "",    "",       ""],
 ]
 
 function addImage(stack, size, name)
