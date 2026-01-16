@@ -8,6 +8,7 @@ const COLOR_BLUE        = new Color("0000FF", 1)
 // const SIZE_TOTAL     = new Size(320, 160)
 const SIZE_STACK_D      = new Size(320,  38)
 const SIZE_STACK_L      = new Size(320,  10)
+const SIZE_STACK_SL     = new Size(320,   2)
 const SIZE_STACK_C      = new Size(320, 200)
 const SIZE_STACK_E      = new Size(145, 200)
 const SIZE_STACK_R      = new Size(145, 200)
@@ -167,19 +168,12 @@ function addStack(stack, size, color)
   return stack_child
 }
 
-function drawHabits(stack, reminders)
+function drawHabit(stack, reminders)
 {
-  stack.layoutVertically()
-  const stack_s = addStack(stack, SIZE_STACK_HC, COLOR_BG)   // supplements
-  const stack_e = addStack(stack, SIZE_STACK_HC, COLOR_BLUE) // excercise
-  const stack_i = addStack(stack, SIZE_STACK_HC, COLOR_BG)   // self improvements
-  const stack_l = addStack(stack, SIZE_STACK_HC, COLOR_BLUE) // ledger
-  const stack_c = addStack(stack, SIZE_STACK_HC, COLOR_BG)   // cool downs
-
-//  for (let i = 0; i < 28; ++i)
-//  {
+  for (let i = 0; i < 28; ++i)
+  {
 //    const date = new Date(new Date().getTime() - i * 24 * 60 * 60 * 1000)
-//    const stack_block = addStack(stack, SIZE_STACK_HB, COLOR_BG)
+    const stack_block = addStack(stack, SIZE_STACK_HB, COLOR_WHITE)
 //    let exercise_complete = false
 //
 //    // check if a reminder was completed
@@ -195,7 +189,29 @@ function drawHabits(stack, reminders)
 //
 //    if (exercise_complete)
 //      drawDot(stack_block, /*dot_resolution*/ 50, SIZE_ACTUAL_DOT, COLOR_WHITE)
-//  }
+    drawDot(stack_block, /*dot_resolution*/ 50, SIZE_ACTUAL_DOT, COLOR_BG)
+  }
+}
+
+function drawHabits(stack, reminders)
+{
+  // create stacks for each habit category
+  stack.layoutVertically()
+  const stack_s = addStack(stack, SIZE_STACK_HC, COLOR_WHITE) // supplements
+  addLine(stack, SIZE_STACK_L, COLOR_WHITE)
+  const stack_e = addStack(stack, SIZE_STACK_HC, COLOR_WHITE) // excercise
+  addLine(stack, SIZE_STACK_L, COLOR_WHITE)
+  const stack_i = addStack(stack, SIZE_STACK_HC, COLOR_WHITE) // self improvements
+  addLine(stack, SIZE_STACK_L, COLOR_WHITE)
+  const stack_l = addStack(stack, SIZE_STACK_HC, COLOR_WHITE) // ledger
+  addLine(stack, SIZE_STACK_L, COLOR_WHITE)
+  const stack_c = addStack(stack, SIZE_STACK_HC, COLOR_WHITE) // cool downs
+
+  drawHabit(stack_s, reminders)
+  drawHabit(stack_e, reminders)
+  drawHabit(stack_i, reminders)
+  drawHabit(stack_l, reminders)
+  drawHabit(stack_c, reminders)
 }
 
 function drawReminders(stack, reminders)
@@ -276,7 +292,7 @@ function drawDates(stack, events, reminders)
     // calculate number of events in a specific date
     let today_events = []
     for (const evnt of events)
-      if (evnt.startDate.getTime() > today.getTime())
+      if (evnt.startDate.getDate() == date.getDate())
         today_events.push({ id: evnt.identifier })
 
     // create day, date, and alert stack
