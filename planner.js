@@ -88,7 +88,7 @@ function addText(stack, bg_color, content, font, color)
 
 function addRemainder(stack, events, limit, postfix_str)
 {
-  const stack_pad = addStack(stack, SIZE_STACK_PAD, COLOR_BG)
+  const stack_pad = addStack(stack, SIZE_STACK_PAD, COLOR_WHITE)
   const stack_r   = addStack(stack,  SIZE_STACK_RS, COLOR_BG)
 
   if (events.length > limit)
@@ -109,7 +109,7 @@ function addReminder(stack, reminders, idx)
 
 function addEvent(stack, events, idx)
 {
-  const stack_pad   = addStack(      stack,    SIZE_STACK_PAD, COLOR_BG)
+  const stack_pad   = addStack(      stack,    SIZE_STACK_PAD, COLOR_WHITE)
   const stack_event = addStack(      stack,  SIZE_STACK_EVENT, COLOR_BG)
   const stack_time  = addStack(stack_event,  SIZE_STACK_ETIME, COLOR_BG)
   const stack_name  = addStack(stack_event,  SIZE_STACK_ENAME, COLOR_BG)
@@ -253,6 +253,9 @@ function drawEvents(stack, events)
   addAllDayEvent(stack, today_ades, 1)
   addEvent(stack, today_events, 0)
   addEvent(stack, today_events, 1)
+  addEvent(stack, today_events, 2)
+  addEvent(stack, today_events, 3)
+  addEvent(stack, today_events, 4)
   addRemainder(stack, today_events, 2, "event")
 }
 
@@ -305,6 +308,7 @@ async function buildLargeWidget()
   const reminders = await Reminder.all([])
   const today = new Date()
 
+  // add major stacks
   stack.layoutVertically()
   const stack_d = addStack(stack, SIZE_STACK_D, COLOR_WHITE) // date stack
   addLine(stack, SIZE_STACK_L, COLOR_WHITE)
@@ -320,7 +324,7 @@ async function buildLargeWidget()
   addStack(stack_c, SIZE_STACK_P, COLOR_WHITE)
 
   drawDates(stack_d, events, reminders)
-//  drawEvents(stack_e, events)
+  drawEvents(stack_e, events)
 //  drawReminders(stack_r, reminders)
   drawHabits(stack_h, reminders)
 
