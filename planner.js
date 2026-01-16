@@ -259,8 +259,7 @@ function drawEvents(stack, events)
   addEvent(stack, today_events, 2)
   addEvent(stack, today_events, 3)
   addEvent(stack, today_events, 4)
-  addEvent(stack, today_events, 5)
-  addRemainder(stack, today_events, 6, "event")
+  addRemainder(stack, today_events, 5, "event")
 }
 
 function drawDates(stack, events, reminders)
