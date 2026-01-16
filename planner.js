@@ -15,7 +15,7 @@ const SIZE_STACK_R      = new Size(145, 200)
 const SIZE_STACK_P      = new Size( 10, 200)
 const SIZE_STACK_PAD    = new Size(145,   5)
 const SIZE_STACK_RS     = new Size(145,  11)
-const SIZE_STACK_H      = new Size(320,  50)
+const SIZE_STACK_H      = new Size(320,  58)
 const SIZE_STACK_HC     = new Size(320,  10)
 
 // date stack sizes
@@ -168,28 +168,27 @@ function addStack(stack, size, color)
   return stack_child
 }
 
-function drawHabit(stack, reminders)
+function drawHabit(stack, reminders, title)
 {
   for (let i = 0; i < 28; ++i)
   {
-//    const date = new Date(new Date().getTime() - i * 24 * 60 * 60 * 1000)
+    const date = new Date(new Date().getTime() - i * 24 * 60 * 60 * 1000)
     const stack_block = addStack(stack, SIZE_STACK_HB, COLOR_WHITE)
-//    let exercise_complete = false
-//
-//    // check if a reminder was completed
-//    let today_reminders = []
-//    for (const reminder of reminders)
-//      if (
-//        reminder.title == "Exercise" &&
-//        reminder.dueDate.getDate() == date.getDate() &&
-//        reminder.dueDate.getMonth() == date.getMonth() &&
-//        reminder.dueDate.getFullYear() == date.getFullYear()
-//      )
-//        exercise_complete = true
-//
-//    if (exercise_complete)
-//      drawDot(stack_block, /*dot_resolution*/ 50, SIZE_ACTUAL_DOT, COLOR_WHITE)
-    drawDot(stack_block, /*dot_resolution*/ 50, SIZE_ACTUAL_DOT, COLOR_BG)
+    let complete = false
+
+    // check if a reminder was completed
+    let today_reminders = []
+    for (const reminder of reminders)
+      if (
+        reminder.title == title &&
+        reminder.dueDate.getDate() == date.getDate() &&
+        reminder.dueDate.getMonth() == date.getMonth() &&
+        reminder.dueDate.getFullYear() == date.getFullYear()
+      )
+        complete = true
+
+    if (complete)
+      drawDot(stack_block, /*dot_resolution*/ 50, SIZE_ACTUAL_DOT, COLOR_BG)
   }
 }
 
@@ -207,11 +206,11 @@ function drawHabits(stack, reminders)
   addLine(stack, SIZE_STACK_SL, COLOR_WHITE)
   const stack_c = addStack(stack, SIZE_STACK_HC, COLOR_WHITE) // cool downs
 
-  drawHabit(stack_s, reminders)
-  drawHabit(stack_e, reminders)
-  drawHabit(stack_i, reminders)
-  drawHabit(stack_l, reminders)
-  drawHabit(stack_c, reminders)
+  drawHabit(stack_s, reminders, "Supplements")
+  drawHabit(stack_e, reminders, "Excercise")
+  drawHabit(stack_i, reminders, "Studies")
+  drawHabit(stack_l, reminders, "Ledger")
+  drawHabit(stack_c, reminders, "Cooldowns")
 }
 
 function drawReminders(stack, reminders)
