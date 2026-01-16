@@ -100,39 +100,39 @@ function addRemainder(stack, events, limit, postfix_str)
 
 function addReminder(stack, reminders, idx)
 {
-  const stack_pad = addStack(stack,   SIZE_STACK_PAD, COLOR_BG)
-  const stack_r   = addStack(stack, SIZE_STACK_RNAME, COLOR_BG)
+  const stack_pad = addStack(stack,   SIZE_STACK_PAD, COLOR_WHITE)
+  const stack_r   = addStack(stack, SIZE_STACK_RNAME, COLOR_WHITE)
 
   if (reminders.length > idx)
-    addText(stack_r, COLOR_BG, reminders[idx].name, FONT_RNAME, COLOR_WHITE)
+    addText(stack_r, COLOR_WHITE, reminders[idx].name, FONT_RNAME, COLOR_BG)
 }
 
 function addEvent(stack, events, idx)
 {
   const stack_pad   = addStack(      stack,    SIZE_STACK_PAD, COLOR_WHITE)
-  const stack_event = addStack(      stack,  SIZE_STACK_EVENT, COLOR_BG)
-  const stack_time  = addStack(stack_event,  SIZE_STACK_ETIME, COLOR_BG)
-  const stack_name  = addStack(stack_event,  SIZE_STACK_ENAME, COLOR_BG)
+  const stack_event = addStack(      stack,  SIZE_STACK_EVENT, COLOR_WHITE)
+  const stack_time  = addStack(stack_event,  SIZE_STACK_ETIME, COLOR_WHITE)
+  const stack_name  = addStack(stack_event,  SIZE_STACK_ENAME, COLOR_WHITE)
   stack_time.layoutVertically()
-  const stack_stime = addStack( stack_time, SIZE_STACK_ETIMEP, COLOR_BG)
-  const stack_etime = addStack( stack_time, SIZE_STACK_ETIMEP, COLOR_BG)
+  const stack_stime = addStack( stack_time, SIZE_STACK_ETIMEP, COLOR_WHITE)
+  const stack_etime = addStack( stack_time, SIZE_STACK_ETIMEP, COLOR_WHITE)
 
   if (events.length > idx)
   {
-    addText(stack_stime, COLOR_WHITE, DF_TIME.string(events[idx].startDate), FONT_ETIME, COLOR_BG)
-    addText(stack_etime, COLOR_WHITE,   DF_TIME.string(events[idx].endDate), FONT_ETIME, COLOR_BG)
-    addText( stack_name, COLOR_WHITE,                      events[idx].name, FONT_ENAME, COLOR_BG)
+    addText(stack_stime, COLOR_BG, DF_TIME.string(events[idx].startDate), FONT_ETIME, COLOR_WHITE)
+    addText(stack_etime, COLOR_BG,   DF_TIME.string(events[idx].endDate), FONT_ETIME, COLOR_WHITE)
+    addText( stack_name, COLOR_BG,                      events[idx].name, FONT_ENAME, COLOR_WHITE)
     stack_name.addSpacer()
   }
 }
 
 function addAllDayEvent(stack, events, idx)
 {
-  const stack_pad   = addStack(stack, SIZE_STACK_PAD, COLOR_BG)
-  const stack_event = addStack(stack, SIZE_STACK_ADE, COLOR_BG)
+  const stack_pad   = addStack(stack, SIZE_STACK_PAD, COLOR_WHITE)
+  const stack_event = addStack(stack, SIZE_STACK_ADE, COLOR_WHITE)
 
   if (events.length > idx)
-    addText(stack_event, COLOR_WHITE, events[idx].name, FONT_ADE, COLOR_BG)
+    addText(stack_event, COLOR_BG, events[idx].name, FONT_ADE, COLOR_WHITE)
 }
 
 function pushEvent(events, evnt)
