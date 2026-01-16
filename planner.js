@@ -94,11 +94,12 @@ function addRemainder(stack, events, limit, postfix_str)
   const stack_pad = addStack(stack, SIZE_STACK_PAD, COLOR_WHITE)
   const stack_r   = addStack(stack,  SIZE_STACK_RS, COLOR_WHITE)
 
-  if (events.length > limit)
-  {
-    const postfix = events.length - limit == 1 ? postfix_str + "..." : postfix_str + "s..."
-    addText(stack_r, COLOR_WHITE, "+" + (events.length - limit) + " more " + postfix, FONT_REMAINDER, COLOR_BG)
-  }
+//  if (events.length > limit)
+//  {
+//    const postfix = events.length - limit == 1 ? postfix_str + "..." : postfix_str + "s..."
+//    addText(stack_r, COLOR_WHITE, "+" + (events.length - limit) + " more " + postfix, FONT_REMAINDER, COLOR_BG)
+//  }
+  addText(stack_r, COLOR_WHITE, "+ REMAINDER more ", FONT_REMAINDER, COLOR_BG)
 }
 
 function addReminder(stack, reminders, idx)
@@ -332,7 +333,7 @@ async function buildLargeWidget()
 
   drawDates(stack_d, events, reminders)
   drawEvents(stack_e, events)
-//  drawReminders(stack_r, reminders)
+  drawReminders(stack_r, reminders)
   drawHabits(stack_h, reminders)
 
   // link calendar and reminder applications
