@@ -106,8 +106,9 @@ function addReminder(stack, reminders, idx)
   const stack_pad = addStack(stack,   SIZE_STACK_PAD, COLOR_WHITE)
   const stack_r   = addStack(stack, SIZE_STACK_RNAME, COLOR_WHITE)
 
-  if (reminders.length > idx)
-    addText(stack_r, COLOR_WHITE, reminders[idx].name, FONT_RNAME, COLOR_BG)
+//  if (reminders.length > idx)
+//    addText(stack_r, COLOR_WHITE, reminders[idx].name, FONT_RNAME, COLOR_BG)
+  addText(stack_r, COLOR_WHITE, "REMINDER", FONT_RNAME, COLOR_BG)
 }
 
 function addEvent(stack, events, idx)
@@ -228,8 +229,11 @@ function drawReminders(stack, reminders)
   addReminder(stack, today_reminders, 1)
   addReminder(stack, today_reminders, 2)
   addReminder(stack, today_reminders, 3)
-  addStack(stack, new Size(145, 4), COLOR_BG)
-  addRemainder(stack, today_reminders, 4, "reminder")
+  addReminder(stack, today_reminders, 4)
+  addReminder(stack, today_reminders, 5)
+  addReminder(stack, today_reminders, 6)
+  addReminder(stack, today_reminders, 7)
+  addRemainder(stack, today_reminders, 8, "reminder")
 }
 
 function drawEvents(stack, events)
