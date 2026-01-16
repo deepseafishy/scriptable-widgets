@@ -198,13 +198,13 @@ function drawHabits(stack, reminders)
   // create stacks for each habit category
   stack.layoutVertically()
   const stack_s = addStack(stack, SIZE_STACK_HC, COLOR_WHITE) // supplements
-  addLine(stack, SIZE_STACK_L, COLOR_WHITE)
+  addLine(stack, SIZE_STACK_SL, COLOR_WHITE)
   const stack_e = addStack(stack, SIZE_STACK_HC, COLOR_WHITE) // excercise
-  addLine(stack, SIZE_STACK_L, COLOR_WHITE)
+  addLine(stack, SIZE_STACK_SL, COLOR_WHITE)
   const stack_i = addStack(stack, SIZE_STACK_HC, COLOR_WHITE) // self improvements
-  addLine(stack, SIZE_STACK_L, COLOR_WHITE)
+  addLine(stack, SIZE_STACK_SL, COLOR_WHITE)
   const stack_l = addStack(stack, SIZE_STACK_HC, COLOR_WHITE) // ledger
-  addLine(stack, SIZE_STACK_L, COLOR_WHITE)
+  addLine(stack, SIZE_STACK_SL, COLOR_WHITE)
   const stack_c = addStack(stack, SIZE_STACK_HC, COLOR_WHITE) // cool downs
 
   drawHabit(stack_s, reminders)
