@@ -94,12 +94,11 @@ function addRemainder(stack, events, limit, postfix_str)
   const stack_pad = addStack(stack, SIZE_STACK_PAD, COLOR_WHITE)
   const stack_r   = addStack(stack,  SIZE_STACK_RS, COLOR_WHITE)
 
-//  if (events.length > limit)
-//  {
-//    const postfix = events.length - limit == 1 ? postfix_str + "..." : postfix_str + "s..."
-//    addText(stack_r, COLOR_WHITE, "+" + (events.length - limit) + " more " + postfix, FONT_REMAINDER, COLOR_BG)
-//  }
-  addText(stack_r, COLOR_WHITE, "+ REMAINDER more ", FONT_REMAINDER, COLOR_BG)
+  if (events.length > limit)
+  {
+    const postfix = events.length - limit == 1 ? postfix_str + "..." : postfix_str + "s..."
+    addText(stack_r, COLOR_WHITE, "+" + (events.length - limit) + " more " + postfix, FONT_REMAINDER, COLOR_BG)
+  }
 }
 
 function addReminder(stack, reminders, idx)
@@ -107,9 +106,8 @@ function addReminder(stack, reminders, idx)
   const stack_pad = addStack(stack,   SIZE_STACK_PAD, COLOR_WHITE)
   const stack_r   = addStack(stack, SIZE_STACK_RNAME, COLOR_WHITE)
 
-//  if (reminders.length > idx)
-//    addText(stack_r, COLOR_WHITE, reminders[idx].name, FONT_RNAME, COLOR_BG)
-  addText(stack_r, COLOR_WHITE, "REMINDER", FONT_RNAME, COLOR_BG)
+  if (reminders.length > idx)
+    addText(stack_r, COLOR_WHITE, reminders[idx].name, FONT_RNAME, COLOR_BG)
 }
 
 function addEvent(stack, events, idx)
@@ -275,16 +273,11 @@ function drawDates(stack, events, reminders)
     const date = new Date(new Date().getTime() + i * 24 * 60 * 60 * 1000)
     const stack_block = addStack(stack, SIZE_STACK_DB, COLOR_BG)
 
-    // calculate number of reminders in a specific date
-    let today_reminders = []
-    for (const reminder of reminders)
-      if (
-        !reminder.isCompleted && reminder.dueDate != null &&
-        reminder.dueDate.getDate() == date.getDate() &&
-        reminder.dueDate.getMonth() == date.getMonth() &&
-        reminder.dueDate.getFullYear() == date.getFullYear()
-      )
-        today_reminders.push({ id: reminder.identifier })
+    // calculate number of events in a specific date
+    let today_events = []
+    for (const evnt of events)
+      if (evnt.startDate.getTime() > today.getTime())
+        today_events.push({ id: evnt.identifier })
 
     // create day, date, and alert stack
     stack_block.layoutVertically()
@@ -302,9 +295,9 @@ function drawDates(stack, events, reminders)
       const stack_date  = addStack(stack_block,  SIZE_STACK_DATE, COLOR_WHITE)
       const stack_alert = addStack(stack_block, SIZE_STACK_ALERT, COLOR_WHITE)
 
-      addText(  stack_day, COLOR_WHITE,          DF_DAY.string(date),   FONT_DAY, COLOR_BG)
-      addText( stack_date, COLOR_WHITE,         DF_DATE.string(date),  FONT_DATE, COLOR_BG)
-      addText(stack_alert, COLOR_WHITE, "+" + today_reminders.length, FONT_ALERT, COLOR_BG)
+      addText(  stack_day, COLOR_WHITE,       DF_DAY.string(date),   FONT_DAY, COLOR_BG)
+      addText( stack_date, COLOR_WHITE,      DF_DATE.string(date),  FONT_DATE, COLOR_BG)
+      addText(stack_alert, COLOR_WHITE, "+" + today_events.length, FONT_ALERT, COLOR_BG)
     }
   }
 }
