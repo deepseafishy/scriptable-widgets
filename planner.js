@@ -60,6 +60,9 @@ DF_DATE.dateFormat = "d"
 const DF_TIME = new DateFormatter()
 DF_TIME.dateFormat = "HH:mm"
 
+// shortcut URL
+const SHORTCUT = "shortcuts://run-shortcut?name="
+
 function drawDot(stack, dot_resolution, size, color)
 {
   const ctx = new DrawContext()
@@ -327,6 +330,10 @@ async function buildLargeWidget()
   drawEvents(stack_e, events)
 //  drawReminders(stack_r, reminders)
   drawHabits(stack_h, reminders)
+
+  // link calendar and reminder applications
+  stack_e.url = SHORTCUT + "calendar"
+  stack_r.url = SHORTCUT + "reminders"
 
   return widget
 }
