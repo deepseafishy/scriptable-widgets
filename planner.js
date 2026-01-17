@@ -170,6 +170,9 @@ function addStack(stack, size, color)
 
 function drawHabit(stack, reminders, title)
 {
+  const stack_name = addStack(stack, SIZE_STACK_HB, COLOR_WHITE)
+  addText(stack_name, COLOR_WHITE, title[0], FONT_ADE, COLOR_BG)
+
   for (let i = 0; i < 28; ++i)
   {
     const date = new Date(new Date().getTime() - i * 24 * 60 * 60 * 1000)
@@ -281,7 +284,7 @@ function drawEvents(stack, events)
   addRemainder(stack, today_events, 5, "event")
 }
 
-function drawDates(stack, events, reminders)
+function drawDates(stack, events_this, events_next)
 {
   for (let i = 0; i < 7; ++i)
   {
@@ -290,7 +293,10 @@ function drawDates(stack, events, reminders)
 
     // calculate number of events in a specific date
     let today_events = []
-    for (const evnt of events)
+    for (const evnt of events_this)
+      if (evnt.startDate.getDate() == date.getDate())
+        today_events.push({ id: evnt.identifier })
+    for (const evnt of events_next)
       if (evnt.startDate.getDate() == date.getDate())
         today_events.push({ id: evnt.identifier })
 
@@ -322,6 +328,8 @@ async function buildLargeWidget()
   const widget = new ListWidget()
   const stack = widget.addStack()
   const events = await CalendarEvent.today([])
+  const events_this = await CalendarEvent.thisWeek([])
+  const events_next = await CalendarEvent.nextWeek([])
   const reminders = await Reminder.all([])
   const today = new Date()
 
@@ -340,7 +348,7 @@ async function buildLargeWidget()
   const stack_r = addStack(stack_c, SIZE_STACK_R, COLOR_BG)
   addStack(stack_c, SIZE_STACK_P, COLOR_WHITE)
 
-  drawDates(stack_d, events, reminders)
+  drawDates(stack_d, events_this, events_next)
   drawEvents(stack_e, events)
   drawReminders(stack_r, reminders)
   drawHabits(stack_h, reminders)
@@ -356,3 +364,5 @@ const widget = await buildLargeWidget()
 widget.backgroundColor = COLOR_WHITE
 Script.setWidget(widget)
 Script.complete()
+
+// TODO: fix +? notification
