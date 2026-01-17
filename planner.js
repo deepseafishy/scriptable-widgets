@@ -173,7 +173,7 @@ function drawHabit(stack, reminders, title)
   const stack_name = addStack(stack, SIZE_STACK_HB, COLOR_WHITE)
   addText(stack_name, COLOR_WHITE, title[0], FONT_ADE, COLOR_BG)
 
-  for (let i = 0; i < 28; ++i)
+  for (let i = 1; i < 29; ++i)
   {
     const date = new Date(new Date().getTime() - i * 24 * 60 * 60 * 1000)
     const stack_block = addStack(stack, SIZE_STACK_HB, COLOR_WHITE)
@@ -210,8 +210,8 @@ function drawHabits(stack, reminders)
   const stack_c = addStack(stack, SIZE_STACK_HC, COLOR_WHITE) // cool downs
 
   drawHabit(stack_s, reminders, "Supplements")
-  drawHabit(stack_e, reminders, "Excercise")
-  drawHabit(stack_i, reminders, "Studies")
+  drawHabit(stack_e, reminders, "Exercise")
+  drawHabit(stack_i, reminders, "Development")
   drawHabit(stack_l, reminders, "Ledger")
   drawHabit(stack_c, reminders, "Cooldowns")
 }
@@ -364,5 +364,3 @@ const widget = await buildLargeWidget()
 widget.backgroundColor = COLOR_WHITE
 Script.setWidget(widget)
 Script.complete()
-
-// TODO: fix +? notification
