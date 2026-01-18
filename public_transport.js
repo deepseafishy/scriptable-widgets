@@ -69,7 +69,9 @@ function addStop(stack)
   addText(stop_top, COLOR_WHITE, "650", FONT_STOP_T, COLOR_BG)
 
   url = REQUEST + stId("100100097") + busRouteId("115000078") + ord("14")
-  let req = new Request(url);
+  let req = new Request(url)
+  let result = req.loadJSON()
+  log(req.kcals1)
 }
 
 function addThreeStops(stack)
